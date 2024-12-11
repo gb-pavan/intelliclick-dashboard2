@@ -1,0 +1,209 @@
+.dashboard-layout {
+  width: 100%;
+}
+
+.dashboard-body {
+  position: relative;
+  display: flex;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #ddd;
+}
+
+.dashboard-sidebar {
+  position: relative;
+}
+
+.dashboard-main-content {
+  flex-grow: 1;
+  border-left: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+@media (max-width: 400px) {
+    .dashboard-body {
+        border-top: 1px solid #ddd;
+        min-width: 480px;
+    }
+    .dashboard-main-content{
+        min-width:480px;
+    }
+}
+
+@media (max-width: 768px) {
+  .mobile-view {
+    display: flex;
+  }
+
+  .side-bar-component {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+  }
+}
+
+
+.user-welcome-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    margin-bottom: 20px;
+    /* margin-left: 0px; */
+    margin-top: 0px;
+    padding: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    /* background-color: #f4f6f8; */
+    /* background-color: red; */
+}
+  
+.user-welcome-info h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #AB1CAF;
+}
+  
+.user-welcome-info p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+    color: #666666;
+}
+
+/* Profile Header */
+
+.profile-header-container{
+    display: flex;
+}
+
+.c-logo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    padding: 0px;
+}
+
+.profile-logo-container{
+    width: max-content;
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-width: 480px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+    border-left: 1px solid #ddd;
+}
+
+.menu-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.profile-img{
+    cursor: pointer;
+}
+
+.menu-icon-container svg:first-of-type{
+    display: none;
+}
+
+/* Media query for mobile view */
+  @media (max-width: 768px) {
+    .menu-icon-container svg:first-of-type{
+        display: flex;
+    }
+  }
+
+  @media (max-width: 414px) {
+    
+    .c-logo-container{
+        display: none;
+    }
+    .profile-logo-container{
+        min-width: 480px;
+        flex-grow: 1;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 10px;
+        border-left: 1px solid #ddd;
+    }
+  }
+
+
+/* LeadSummary */
+
+.lead-stats-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin: 20px;
+    flex-wrap: wrap;
+    /* background-color: bisque; */
+}
+
+.lead-stats {
+    width: clamp(150px, 20vw, 208px); /* Dynamic width based on viewport */
+    height: clamp(100px, 15vw, 137px); /* Dynamic height based on viewport */
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: clamp(30px, 5vw, 50px); /* Dynamic font size */
+}
+
+.lead-stats h3 {
+    color: #495057;
+    font-size: clamp(16px, 2vw, 22px); /* Dynamic heading size */
+    font-weight: 500;
+}
+
+.lead-stats p {
+    padding: 0;
+    margin: 0;
+    font-size: clamp(14px, 3vw, 50px); /* Dynamic paragraph font size */
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+    .lead-stats-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        gap: 10px;
+    }
+    .lead-stats {
+        width: 100%; /* Full width of the grid cell */
+        height: auto; /* Adjust height dynamically */
+        font-size: clamp(20px, 4vw, 40px); /* Smaller font size for small screens */
+    }
+}
+
+@media (max-width: 540px) {
+    .lead-stats-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        gap: 10px; /* Adjust gap between items */
+    }
+    .lead-stats {
+        width: 100%; /* Full width of the grid cell */
+        height: auto; /* Adjust height dynamically */
+        font-size: clamp(20px, 4vw, 40px); /* Adjust font size for small screens */
+    }
+}
+
+@media (max-width: 1585px) {
+    .lead-stats-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
+        gap: 20px; /* Space between items */
+    }
+    .lead-stats {
+        width: 100%; /* Full width within the grid cell */
+        height: auto; /* Adjust height dynamically */
+    }
+}
+
