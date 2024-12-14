@@ -8,7 +8,7 @@ interface LeadSummaryProps {
 
 const LeadSummary = ({ leadSummary }: LeadSummaryProps) => {
 
-    const {data,totalLeads} = leadSummary;
+    const {data,totalLeads,todayLeads,yesterdayLeads} = leadSummary;
 
     const qualified = data?.find(item => item._id === "Qualified")?.count || 0;
     const prospect = data?.find(item => item._id === "Prospects")?.count || 0;
@@ -28,18 +28,26 @@ const LeadSummary = ({ leadSummary }: LeadSummaryProps) => {
   ];
 
   return (
-    <div className={styles['lead-stats-container']}>
-      {stats.map((stat, index) => (
-        <div
-          key={index}
-          // className={`p-4 rounded-md shadow-md ${stat.color} text-center`}
-          className={styles['lead-stats']}
-          style={{ minWidth: "100px",backgroundColor: stat.color, color:stat.textColor }}
-        >
-          <h3 style={{fontSize:stat.title.length > 10? "21px":""}}>{stat.title}</h3>
-          <p>{stat.value}</p>
-        </div>
-      ))}
+    <div>
+      <div className={styles['lead-stats-container']}>
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            // className={`p-4 rounded-md shadow-md ${stat.color} text-center`}
+            className={styles['lead-stats']}
+            style={{ minWidth: "210px",backgroundColor: stat.color, color:stat.textColor }}
+          >
+            <h3>{stat.title}</h3>
+            <p>{stat.value}</p>
+          </div>
+        ))}
+      </div>
+    
+      <div className={styles['btn-group']}>
+        <button className={`${styles.leadsBtn} ${styles.todayTotalLeadCount}`}>Today Leads <span>{todayLeads}</span></button>
+        <button className={`${styles.leadsBtn} ${styles.yesterdayLeadCount}`}>Yesterday Leads <span>{yesterdayLeads}</span></button>
+      </div>
+    
     </div>
   )
 }

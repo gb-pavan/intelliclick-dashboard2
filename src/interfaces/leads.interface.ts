@@ -21,7 +21,20 @@ export interface ILeadSummary {
   data: ILeadCount[];
 }
 
+export interface ICreateLead {
+    studentName: string;
+    mobile: string;
+    standard: string;
+    createdBy: string;
+    board: string;
+    interactedWith: string;
+}
+
 export interface ILeadCount{
   _id:string;
   count:number
+}
+export interface IPageParams{
+  pageNum: number;
+  pageSize: number;
 }

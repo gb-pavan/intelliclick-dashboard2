@@ -1,9 +1,10 @@
 import { callApi } from './http.service';
 import { API } from '@utils/enums';
+import { IPageParams } from '@/interfaces';
 
 class LeadsService{
-    getLeads = async (pageNum: number, pageSize: number) => {
-        const url = `api/lead-app/lead/read/get-all?pageNum=${pageNum}&pageSize=${pageSize}`;
+    getLeadsByParams = async (pageParams:IPageParams) => {
+        const url = `api/lead-app/lead/read/get-all?pageNum=${pageParams.pageNum}&pageSize=${pageParams.pageSize}`;
         return await callApi(url, API.GET);
       };
 

@@ -1,0 +1,47 @@
+/* Custom class for PhoneInput container */
+.custom-phone-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* background-color: orange; */
+    /* padding: 10px; */
+  }
+  
+  /* Custom class for the dropdown button */
+  .custom-phone-dropdown {
+    background-color: blue;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;    
+    cursor: pointer;
+    padding: 80px;
+  }
+  
+  /* Custom class for the dropdown search input */
+  .custom-phone-search {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: red;
+  }
+  
+  /* Custom class for Send OTP button */
+  .send-otp-button {
+    position: absolute;
+    right: 25px;
+    height: 30px;
+    background: linear-gradient(to right,#AB1CAF, #519CDF);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0 15px;
+    cursor: pointer;
+    font-size: 14px;
+    /* z-index: 1000; */
+  }
+  
+  .send-otp-button:hover {
+    background: linear-gradient(to right,#AB1CAF, #519CDF);
+  }
+  

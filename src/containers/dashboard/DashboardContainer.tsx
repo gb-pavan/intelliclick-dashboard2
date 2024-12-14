@@ -7,6 +7,7 @@ import { handleError } from '@/utils/helpers';
 import { AxiosError } from 'axios';
 import ProfileHeader from './ProfileHeader';
 import LeadSummary from './LeadSummary';
+import LeadsTable from './LeadsTable';
 import {Sidebar} from '@components/Sidebar';
 import styles from './DashboardContainer.module.css';
 
@@ -42,24 +43,24 @@ export const DashboardContainer: React.FC = () => {
   }
 
 
-  const fetchLeads = async () => {
-    setLoading(true);
-    try {
-      const data = await leadServiceInstance.getLeads(pageNum, pageSize);
-      setLeads(data);
-    } catch (error) {
-      handleError(error as AxiosError,true);
-    }
-    setLoading(false);
-  };
+  // const fetchLeads = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const data = await leadServiceInstance.getLeads(pageNum, pageSize);
+  //     setLeads(data);
+  //   } catch (error) {
+  //     handleError(error as AxiosError,true);
+  //   }
+  //   setLoading(false);
+  // };
 
   useEffect(()=>{
     fetchLeadSummary();
   },[]);
 
-  useEffect(() => {
-    fetchLeads();
-  }, [pageNum, pageSize]);
+  // useEffect(() => {
+  //   fetchLeads();
+  // }, [pageNum, pageSize]);
 
 
   return (
@@ -75,22 +76,23 @@ export const DashboardContainer: React.FC = () => {
                 <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} setProfileOpen={setProfileOpen} />
               </div>
               
-              <div className={styles["dashboard-main-content"]}>
-                {!isProfileOpen? 
-                <div>
-                  <div className={styles["user-welcome-info-container"]}>
-                    <div className={styles["user-welcome-info"]}>
-                      <h1>Welcome, Shubham Kumar</h1>
-                      <p>
-                        "Attendance Criteria, have to make 15 Leads to make present"
-                      </p>
-                    </div>
+              <div className={styles["dashboard-main-content"]}>              
+                {/* <div className={styles["user-welcome-info-container"]}>
+                  <div className={styles["user-welcome-info"]}>
+                    <h1>Welcome, Shubham Kumar</h1>
+                    <p>
+                      "Attendance Criteria, have to make 15 Leads to make present"
+                    </p>
                   </div>
-                  <LeadSummary leadSummary={leadSummary} />
-                </div>  : <div>YourProfile</div>
-                
-                }
-                
+                </div> */}
+                <div className={styles["user-welcome-info-container"]}>
+                  <h1>Welcome, Shubham Kumar</h1>
+                  <p>
+                    "Attendance Criteria, have to make 15 Leads to make present"
+                  </p>
+                </div>
+                <LeadSummary leadSummary={leadSummary} />
+                <LeadsTable />
               </div>
             </div>
           </div>
