@@ -19,13 +19,13 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:Pho
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | undefined; // Type interval as NodeJS.Timeout
+    let interval: NodeJS.Timeout | undefined;
     if (timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     } else {
-      setResendOtp(false); // Reset to "Resend OTP" when the timer ends
+      setResendOtp(false);
       setOtpSent(false);
     }
     return () => clearInterval(interval);
@@ -33,16 +33,11 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:Pho
 
   const handlePhoneChange = (value: string, countryData: { name: string }) => {
     setCountry(countryData.name);
-    setPhone(value); // Update local state
-    onPhoneChange(value); // Pass the value to the parent
+    setPhone(value);
+    onPhoneChange(value);
   };
 
   const handleSendOtp = async () => {
-    // const payload = JSON.stringify({phone:"+"+phone})
-    // const otpResponse = await leadServiceInstance.sendOtp(payload);
-    // if (otpResponse.message === "OTP saved successfully!") setResendOtp(true);
-    // setOtpSent(true);
-    // setTimer(60); 
     
     try {
         const payload = JSON.stringify({ phone: "+" + phone });
@@ -65,9 +60,9 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:Pho
           country={"in"}
           value={phone}
           onChange={handlePhoneChange}
-          containerClass="custom-phone-input" // Custom class for PhoneInput
-          buttonClass="custom-phone-dropdown" // Custom class for dropdown button
-          searchClass="custom-phone-search" // Custom class for dropdown search box
+          containerClass="custom-phone-input" 
+          buttonClass="custom-phone-dropdown" 
+          searchClass="custom-phone-search"
           inputProps={{
             required: true,
           }}
@@ -77,10 +72,9 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:Pho
           }}
           containerStyle={{
             width: "100%"
-            // margin:"0px 22px"
           }}
           inputStyle={{
-            width: "calc(100% - 60px)", // Adjust width to accommodate button          
+            width: "calc(100% - 60px)",         
             height: "40px",
             padding: "10px",
             fontSize: "16px",
@@ -93,17 +87,17 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:Pho
         />
         {resendOtp ?<button className="send-otp-button" type="button" style={{
           position: "absolute",
-          right: "10px", // Position the button at the right end of the container
-          zIndex: 1000,  // Ensure it's in front
+          right: "10px",
+          zIndex: 1000,
         }}>Resend in {timer}s</button>:
         <button
           type="button"
           onClick={handleSendOtp}
-          className="send-otp-button" // Custom class for Send OTP button
+          className="send-otp-button"
           style={{
           position: "absolute",
-          right: "10px", // Position the button at the right end of the container
-          zIndex: 1000,  // Ensure it's in front
+          right: "10px",
+          zIndex: 1000,
         }}
         >
           Send OTP

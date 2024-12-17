@@ -43,14 +43,14 @@
 }
 
 .empty-day, .day {
-    position: relative; /* Added for positioning child elements */
+    position: relative; 
     border: 1px solid #ddd;
     height: 150px;
     width: 150px;
     padding-top: 10px;
     padding-right: 10px;
     display: flex;
-    align-items: flex-start; /* Align text at the bottom */
+    align-items: flex-start;
     justify-content: flex-end;
     background-color: #f9f9f9;
     cursor: pointer;
@@ -78,7 +78,7 @@
 }
 
 .day::before {
-    content: attr(data-day); /* Display the day number from the data-day attribute */
+    content: attr(data-day);
     position: absolute;
     top: 5px;
     right: 5px;
@@ -87,26 +87,26 @@
     font-weight: bold;
 }
 
-@media (max-width: 1056px) { /* For tablets and smaller devices */
+@media (max-width: 1056px) {
   .empty-day, .day {
-    height: 100px; /* Decreased height */
-    width: 100px; /* Decreased width */
-    font-size: 16px; /* Adjust font size */
+    height: 100px; 
+    width: 100px; 
+    font-size: 16px; 
   }
 }
 
-@media (max-width: 700px) { /* For mobile devices */
+@media (max-width: 700px) { 
   .empty-day, .day {
-    height: 80px; /* Further decreased height */
-    width: 80px; /* Further decreased width */
-    font-size: 14px; /* Further adjust font size */
+    height: 80px;
+    width: 80px;
+    font-size: 14px;
   }
 }
 
-@media (max-width: 576px) { /* For mobile devices */
+@media (max-width: 576px) { 
   .empty-day, .day {
-    height: 50px; /* Further decreased height */
-    width: 50px; /* Further decreased width */
-    font-size: 14px; /* Further adjust font size */
+    height: 50px; 
+    width: 50px;
+    font-size: 14px;
   }
 }

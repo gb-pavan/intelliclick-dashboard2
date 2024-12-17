@@ -9,13 +9,11 @@ import styles from './DashboardContainer.module.css';
 import { ILead } from '@/interfaces';
 
 interface TableFiltersProps {
-  leads: ILead[];// Define leads as an object with `data` and `totalCount`
-  // setFilteredRows: React.Dispatch<React.SetStateAction<ILead[]>>; // Set filtered rows with `ILead[]`
+  leads: ILead[];
   setFilteredRows: (value: ILead[]) => void;
   handleSearch: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  // setRefetchLeads: React.Dispatch<React.SetStateAction<boolean>>; // Boolean for refetching leads
-  setRefetchLeads: (value: boolean) => void; // Directly accepts a boolean
+  setRefetchLeads: (value: boolean) => void;
 }
 
 
@@ -29,7 +27,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     const statuses = [
         { label: "Prospects", color: "#F1F5F9" },
         { label: "Qualified", color: "#15803D" },
-        { label: "Not Qualified", color: "#B91C1C" },
+        { label: "Disqualified", color: "#B91C1C" },
         { label: "Follow Up", color: "#92400E" },
         { label: "Trial Booked", color: "#15803D" },
         { label: "Trial Completed", color: "#166534" },
@@ -110,7 +108,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         break;
       case "This Week":
         const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - today.getDay()); // Start of the week (Sunday)
+        startOfWeek.setDate(today.getDate() - today.getDay());
         filteredData = leads.filter(
           (row) =>
             new Date(row.createdAt) >= startOfWeek && new Date(row.createdAt) <= today
@@ -125,9 +123,9 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         break;
       case "Last Week":
         const endOfLastWeek = new Date(today);
-        endOfLastWeek.setDate(today.getDate() - today.getDay() - 1); // Last Saturday
+        endOfLastWeek.setDate(today.getDate() - today.getDay() - 1);
         const startOfLastWeek = new Date(endOfLastWeek);
-        startOfLastWeek.setDate(endOfLastWeek.getDate() - 6); // Last Sunday
+        startOfLastWeek.setDate(endOfLastWeek.getDate() - 6);
         filteredData = leads.filter(
           (row) =>
             new Date(row.createdAt) >= startOfLastWeek &&
@@ -161,7 +159,6 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         if (customStartDate && customEndDate) {
           const startDate = new Date(customStartDate);
           const endDate = new Date(customEndDate);
-          // Set endDate to the end of the day
           endDate.setHours(23, 59, 59, 999);
           filteredData = leads.filter(
             (row) =>
@@ -182,7 +179,6 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
   };
 
       const closeModal = () => {
-    // setSelectedLead(null); 
     setModalOpen(prev =>!prev);
     setCreateLead(prev => !prev);
   };

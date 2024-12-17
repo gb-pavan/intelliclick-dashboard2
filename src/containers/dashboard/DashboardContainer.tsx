@@ -17,7 +17,6 @@ import Attendance from '@/components/Attendance/Attendance';
 
 export const DashboardContainer: React.FC = () => {
 
-  // const [leads, setLeads] = useState<ILead[]>([]);
   const [leadSummary, setLeadSummary] = useState<ILeadSummary>({
     totalLeads: 0,
     todayLeads: 0,
@@ -33,9 +32,9 @@ export const DashboardContainer: React.FC = () => {
   const [filteredRows, setFilteredRows] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [search,setSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [selectedItem, setSelectedItem] = useState("home"); // Default to "home"
-  const inputRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState(""); 
+  const [selectedItem, setSelectedItem] = useState("home"); 
+  const inputRef = useRef<HTMLInputElement>(null);
   const [leads, setLeads] = useState({
     data: [],
     totalCount: 0,
@@ -68,28 +67,6 @@ export const DashboardContainer: React.FC = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleSearchChange = (e) => {
-        const query = e.target.value.toLowerCase();
-        setSearchQuery(query);
-
-        const filteredData = leads?.data.filter((row) => {
-        const studentName = row?.studentName?.toLowerCase() || "";
-        const phoneNumber = row?.mobile?.toString() || "";
-        const className = row?.class[0]?.name?.toLowerCase() || "";
-        const interactedWith = row?.interactedWith?.toLowerCase() || "";
-        const createdBy = row?.createdBy?.toLowerCase() || "";
-
-        return (
-            studentName.includes(query) ||
-            phoneNumber.includes(query) ||
-            className.includes(query) ||
-            interactedWith.includes(query) ||
-            createdBy.includes(query)
-        );
-        });
-
-        setFilteredRows(filteredData || leads);}
-
   const fetchLeadSummary = async () => {
     setLoading(true);
     try {
@@ -107,7 +84,7 @@ export const DashboardContainer: React.FC = () => {
   },[]);
 
   const handleSearch = () => {
-    setSearch((prevSearch) => !prevSearch); // Toggle the search value
+    setSearch((prevSearch) => !prevSearch);
     inputRef.current?.focus();
   };
 
@@ -121,20 +98,6 @@ export const DashboardContainer: React.FC = () => {
         return (
           <Attendance />
         )
-      // case "leads":
-      //   return (
-      //     <div>
-      //       <Header />
-      //       <LeadsTable />
-      //     </div>
-      //   );
-      // case "profile":
-      //   return <YourProfile />;
-      // case "reports":
-      //   return <Reports />;
-      // case "analytics":
-      //   return <Analytics />;
-      // Add more cases for other sidebar items
       default:
         return <div>Select an item from the sidebar</div>;
     }
@@ -155,17 +118,7 @@ export const DashboardContainer: React.FC = () => {
               </div>
               
               <div className={styles["dashboard-main-content"]}> 
-                {renderContent()}             
-                {/* <div className={styles["user-welcome-info-container"]}>
-                  <h1>Welcome, Shubham Kumar</h1>
-                  <p>
-                    "Attendance Criteria, have to make 15 Leads to make present"
-                  </p>
-                </div>
-                <LeadSummary leadSummary={leadSummary} />
-                <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} />
-                {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
-                <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} /> */}
+                {renderContent()}
               </div>
             </div>
           </div>

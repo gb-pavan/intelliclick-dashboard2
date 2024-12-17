@@ -81,7 +81,7 @@
   border: none;
   outline: none;
   padding-right: 8px;
-  background: transparent; /* Makes background transparent (optional) */
+  background: transparent;
 }
 
 #rows-per-page {

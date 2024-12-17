@@ -2,9 +2,17 @@ import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./Pagination.css";
 
-function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsPerPageChange }) {
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  rowsPerPage: number;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rows: number) => void;
+}
+
+function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsPerPageChange }:PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-  const rowsOptions = [10, 25, 50, 100]; // Available rows per page options
+  const rowsOptions = [10, 25, 50, 100];
 
   const renderRowsPerPage = () => {
     return (
@@ -49,7 +57,6 @@ function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsP
             ))}
           </select>
         </label>
-        {/* <p style={{color:#64748B;}}>of {totalPages} pages</p> */}
         <p style={{ color: "#64748B",fontSize:"14px",fontWeight:100,marginLeft:"10px" }}>of {totalPages || 0} pages</p>
 
         {renderPageNavButtons()}

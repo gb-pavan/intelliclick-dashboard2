@@ -1,13 +1,9 @@
-// components/Calendar.tsx
 import React, { useState,useEffect } from 'react';
-// import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css'; // Import default styles
 import Calendar from '@components/Calendar/Calendar';
 import './Attendance.css';
 import { leadServiceInstance } from '@/services';
 
 const Attendance = () => {
-//   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [qualified,setQualified] = useState<{ data?: { _id: string; count: number }[] } | null>(null);
   const [attendance,setAttendance] = useState(false);
@@ -26,7 +22,6 @@ const Attendance = () => {
     const getQualifiedCount = async () => {
         
         const response = await leadServiceInstance.getLeadsCount();
-        // const qualified = response?.data?.find(item => item._id === "Qualified")?.count || 0;
         setQualified(response);
     }   
 

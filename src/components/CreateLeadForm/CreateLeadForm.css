@@ -1,4 +1,3 @@
-/* Container styles */
 .form-container {
   text-align: center;
   max-width: 100%;
@@ -7,12 +6,9 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* text-align: center; */
   font-family: Arial, sans-serif;
-  /* background-color: brown; */
 }
 
-/* Heading and subheading styles */
 .form-container h2 {
   font-size: 1.5rem;
   color: #333;
@@ -30,7 +26,6 @@
   margin-bottom: 20px;
 }
 
-/* Form styles */
 .live-class-form {
   display: flex;
   flex-direction: column;
@@ -38,7 +33,6 @@
   align-items: flex-start;
   gap: 15px;
   padding: 0px;
-  /* background-color: #666; */
 }
 
 .name-container{
@@ -53,7 +47,6 @@
 .name-error{
   color: red;
   text-align: left;
-  /* width: 80%; */
 }
 
 .otp-verify-message{
@@ -83,12 +76,6 @@
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* .name-style{
-  width: 60%;
-} */
-
-
-/* Phone input container */
 .phone-input-container {
   display: flex;
   gap: 10px;
@@ -157,7 +144,6 @@
   width: 100%;
 }
 
-/* Submit button styles */
 .submit-button {
   padding: 10px;
   font-size: 1rem;
@@ -172,7 +158,6 @@
     background: linear-gradient(to right,#BB1CAB, #619CDF);
 }
 
-/* Responsive design */
 @media (max-width: 480px) {
   .form-container {
     padding: 15px;

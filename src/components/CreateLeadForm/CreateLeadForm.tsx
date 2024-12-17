@@ -8,9 +8,9 @@ import { leadServiceInstance } from "@/services";
 import { IClass } from "@/interfaces";
 
 interface CreateLeadFormProps {
-  onSubmit?: () => void; // The function to handle the lead submission
-  closeModal: () => void; // The function to handle modal close
-  refCode?: string; // Optional reference code (string)
+  onSubmit?: () => void; 
+  closeModal: () => void;
+  refCode?: string;
 }
 
 
@@ -64,11 +64,6 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}:CreateLeadFormProps) 
 
 
   const classList = classDetails?.map(eachClass => eachClass.name);
-
-  // const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;    
-  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
-  // }, []);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;    
@@ -195,7 +190,6 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}:CreateLeadFormProps) 
                 name="otp"
                 placeholder="Enter OTP"
                 className="form-input"
-                // value={formData.otp}
                 value={verifyOtp}
                 onChange={(e)=>setVerifyOtp(e.target.value)}
                 required
@@ -213,7 +207,6 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}:CreateLeadFormProps) 
           <select
             name="selectedBoard"
             className="form-input custom-dropdown"
-            // style={{ width: "312px" }}
             value={formData.selectedBoard}
             onChange={handleInputChange}
           >
@@ -263,10 +256,6 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}:CreateLeadFormProps) 
             {errors.interactedWith && <p className="name-error" style={{ color: "red" }}>*{errors.interactedWith}</p>}
           </div>
         </div>
-
-        
-
-        {/* {country === "India" && <GetLocation setLocation={setLocation} errors={errors} />} */}
         <div className="submit-btn-container">
           <button type="submit" className="submit-button">Submit</button>
         </div>

@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
-  border-radius: 8px;    /* Slightly rounded corners */
+  border: 1px solid #d6d2d2;
+  border-radius: 8px;
   color: #64748B;
   height: 40px;
   font-size: 14px;
@@ -19,18 +19,12 @@
     margin: 0px;
 }
 
-/* .status-color-box{
-    background-color: red;
-    height: 20px;
-    width: 2px;
-} */
-
 .status-color-box {
-  display: inline-block; /* Makes it behave like a box */
-  width: 16px; /* Set width for the box */
-  height: 16px; /* Set height for the box */
-  border-radius: 4px; /* Optional: Rounds the corners slightly */
-  margin-right: 8px; /* Adds space between the box and text */
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 8px;
   margin-left: 8px;
 }
 
@@ -41,6 +35,7 @@
     margin: 0px;
     font-size: 14px;
     width: 200px;
+    cursor: pointer;
 }
 
 .each-status{
@@ -50,10 +45,15 @@
     align-items: center;
 }
 
+.each-status:hover{
+    background-color: #e3e2e3;
+    border-radius: 5px;
+}
+
   .down-arrow{
     cursor: pointer;
     color: #64748B;
-    width: 10px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 10px;
+    height: auto;
     font-size: 16px;
   }

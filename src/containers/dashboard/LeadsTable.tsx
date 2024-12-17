@@ -1,11 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState} from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Modal from '@components/Modal/Modal';
-import CreateLeadForm from '@components/CreateLeadForm/CreateLeadForm';
 import Pagination from '@components/Pagination/Pagination';
 import { IoEyeOutline } from "react-icons/io5";
-import { ICreateLead, ILead, IPageParams } from '@interfaces';
-import {leadServiceInstance} from '@services';
+import {ILead, IPageParams } from '@interfaces';
 import styles from './DashboardContainer.module.css';
 import { formatToLocalTime } from '@/utils/helpers';
 
@@ -32,17 +30,8 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
   const [standardFilter, setStandardFilter] = useState('');
   const [sortOrder, setSortOrder] = useState(false);
 
-  // const [leads, setLeads] = useState<ICreateLead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // const [selectedLead, setSelectedLead] = useState<ICreateLead | null>({
-  //   studentName: '',
-  //   mobile: '',
-  //   standard: '',
-  //   createdBy: '',
-  //   board: '',
-  //   interactedWith: ''
-  // });
   const [selectedLead, setSelectedLead] = useState<ILead | null>();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCreateLead,setCreateLead] = useState(false);
@@ -54,23 +43,6 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
     pageNum: 1, 
     pageSize: 10 
   };
-
-  // useEffect(() => {
-  //   const fetchLeads = async () => {
-  //     try {
-  //       const data = await leadServiceInstance.getLeadsByParams(pageParams);  
-  //       setLeads(data);
-  //       setFilteredRows(data?.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError('Error fetching leads');
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchLeads(); 
-  // }, []); // Empty dependency array ensures this runs only on initial render
-
   
   const filteredData = data.filter((item) => {
     const searchLower = searchFilter.toLowerCase();
@@ -90,11 +62,11 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
     totalCount: 0,
     });
     setRowsPerPage(newRowsPerPage);
-    setCurrentPage(1); // Reset to the first page
+    setCurrentPage(1);
   };
 
   const openModal = (lead:ILead) => {
-    setSelectedLead(lead); // Store the selected lead
+    setSelectedLead(lead);
     setModalOpen(true);
   };
   
@@ -140,7 +112,6 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
       <tr key={index}>
         <td>{lead.studentName || ''}</td>
         <td>{lead?.class[0]?.name.split(" ")[1] || ''}</td>
-        {/* <td>class</td> */}
         <td>{lead.mobile || ''}</td>
         <td className={`${styles.status} ${styles[lead.status.toLowerCase().replace(" ", "-")]}`}>
           <span>{lead.status || ''}</span>
@@ -149,9 +120,6 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
         <td>{lead.createdBy || ''}</td>
         <td>{lead.creationStatus || ''}</td>
         <td>
-          {/* <button className="eye-button" onClick={() => openModal(lead)}>
-            <IoEyeOutline size={25} />
-          </button> */}
           <div
             className="eye-button"
             role="button"

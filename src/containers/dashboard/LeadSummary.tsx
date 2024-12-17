@@ -1,7 +1,6 @@
 import { ILeadSummary } from "@/interfaces";
-import styles from './DashboardContainer.module.css'; // Import as a module
+import styles from './DashboardContainer.module.css';
 
-// Define a separate interface for the props
 interface LeadSummaryProps {
   leadSummary: ILeadSummary;
 }
@@ -33,7 +32,6 @@ const LeadSummary = ({ leadSummary }: LeadSummaryProps) => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            // className={`p-4 rounded-md shadow-md ${stat.color} text-center`}
             className={styles['lead-stats']}
             style={{ minWidth: "210px",backgroundColor: stat.color, color:stat.textColor }}
           >

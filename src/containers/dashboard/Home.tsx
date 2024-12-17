@@ -3,11 +3,9 @@ import {leadServiceInstance} from '@services';
 import {ILead,ILeadSummary} from '@interfaces'
 import { handleError } from '@/utils/helpers';
 import { AxiosError } from 'axios';
-import ProfileHeader from './ProfileHeader';
 import LeadSummary from './LeadSummary';
 import LeadsTable from './LeadsTable';
-import Sidebar from '@components/Sidebar/Sidebar';
-import { ICreateLead, IPageParams } from '@interfaces';
+import { IPageParams } from '@interfaces';
 import styles from './DashboardContainer.module.css';
 import TableFilters from './TableFilters';
 
@@ -28,8 +26,8 @@ const Home = () => {
   const [filteredRows, setFilteredRows] = useState<ILead[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [search,setSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [selectedItem, setSelectedItem] = useState("home"); // Default to "home"
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState("home");
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [leads, setLeads] = useState<{ data: ILead[]; totalCount: number }>({
@@ -58,7 +56,7 @@ const Home = () => {
     };
 
     fetchLeads(); 
-  }, []); // Empty dependency array ensures this runs only on initial render
+  }, []);
 
   useEffect(()=>{
     const reFetchLeads = async () => {
@@ -116,7 +114,7 @@ const Home = () => {
   },[]);
 
     const handleSearch = () => {
-        setSearch((prevSearch) => !prevSearch); // Toggle the search value
+        setSearch((prevSearch) => !prevSearch);
         inputRef.current?.focus();
     };
 

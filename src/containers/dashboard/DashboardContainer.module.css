@@ -17,7 +17,6 @@
   flex-grow: 1;
   border-left: 1px solid #ddd;
   min-width: 480px;
-  /* padding-top: 15px; */
 }
 
 @media (max-width: 400px) {
@@ -42,40 +41,11 @@
   }
 }
 
-
-/* .user-welcome-info-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-    margin-bottom: 20px;
-    margin-top: 0px;
-    padding: 20px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    background-color: red;
-}
-  
-.user-welcome-info h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    color: #AB1CAF;
-}
-  
-.user-welcome-info p {
-    margin: 5px 0 0;
-    font-size: 1rem;
-    color: #666666;
-} */
-
 .user-welcome-info-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 20px;
-  /* padding: 0 0 0 20px; */
-  /* background-color: red; */
 }
 
 .user-welcome-info-container h1 {
@@ -171,19 +141,15 @@
 }
 
 .lead-stats {
-    /* width: clamp(150px, 20vw, 208px);
-    height: clamp(100px, 15vw, 137px); */
     width: 208px;
     height: 137px;
     border-radius: 15px;
     padding: 10px 20px;
-    /* font-size: clamp(30px, 5vw, 50px); */
     font-size: 22px;
 }
 
 .lead-stats h3 {
     color: #495057;
-    /* font-size: clamp(16px, 2vw, 22px); */
     font-size: 22px;
     font-weight: 500;
 }
@@ -191,7 +157,6 @@
 .lead-stats p {
     padding: 0;
     margin: 0;
-    /* font-size: clamp(14px, 3vw, 50px); */
     font-size: 50px;
     font-weight: 600;
 }
@@ -202,9 +167,9 @@
 }
   
 .leadsBtn{
-    display: flex; /* Enables Flexbox */
-    align-items: center; /* Centers items vertically */
-    justify-content: center; /* Centers items horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #E2F3FF;
     border-radius: 10px;
     border: 1px solid #18508C;
@@ -250,12 +215,12 @@
 @media (min-width: 600px) and (max-width: 1585px) {
     .lead-stats-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columns */
-        gap: 20px; /* Space between grid items */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
     }
     .lead-stats {
-        width: 100%; /* Full width of the grid cell */
-        height: auto; /* Automatically adjust height */
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -284,8 +249,8 @@
 @media (max-width:400px){
     .lead-stats-container {
        display: grid;
-       grid-template-columns: repeat(3, 1fr); /* 3 columns */
-       gap: 20px; /* Space between grid items */
+       grid-template-columns: repeat(3, 1fr);
+       gap: 20px;
     }
     .lead-stats{
         max-width: 60px !important;
@@ -303,11 +268,10 @@
 }
 
 .table-header button {
-  /* border: none;       */
-  background: none;   /* Removes the background */
-  color: inherit;     /* Inherits text color from parent */
-  font: inherit;      /* Inherits font style and size */
-  cursor: pointer;    /* Shows pointer cursor on hover */
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
 .leads{
@@ -335,8 +299,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
-  border-radius: 8px;    /* Slightly rounded corners */
+  border: 1px solid #d6d2d2;
+  border-radius: 8px;
   color: #64748B;
   height: 40px;
   font-size: 16px;
@@ -350,8 +314,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
-  border-radius: 8px;    /* Slightly rounded corners */
+  border: 1px solid #d6d2d2;
+  border-radius: 8px;
   color: #64748B;
   height: 40px;
   font-size: 14px;
@@ -360,19 +324,18 @@
   text-align: center;
 }
 
-/* Targeting the second button inside the .search-box */
 .search-box:nth-child(2) {
-  width: 129px; /* Width for Date Range button */
+  width: 129px;
   color: #64748B;
 }
 
 .search-box:nth-child(3) {
-  width: 83px; /* Width for Filters button */
+  width: 83px;
   color: #64748B;
 }
 
 .search-box:nth-child(4) {
-  width: 120px; /* Width for Create Lead button */
+  width: 120px;
   background-color:#18508C;
   color: white;
   font-size: 15px;
@@ -390,8 +353,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d6d2d2; /* Solid border */
-  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #d6d2d2;
+  border-radius: 8px;
   color: #64748B;
   height: 40px;
   font-size: 16px;
@@ -399,9 +362,9 @@
   gap: 8px;
   text-align: center;
   padding: 0 8px;
-  width: calc(100% - 40px); /* Occupy the available width minus margins */
-  max-width: 800px; /* Optional: limit the width to avoid being too wide */
-  margin: 20px auto; /* Center horizontally */
+  width: calc(100% - 40px);
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 .search-display input{
@@ -414,20 +377,20 @@
 
 .leads-table {
     margin: 20px;
-    padding: 0; /* Remove unnecessary padding */
+    padding: 0;
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow-x: auto;
 }
 
 .table-container {
-    width: 100%; /* Full width of the container */
+    width: 100%;
 }
 
 .responsive-table {
-    min-width: 1100px; /* Fixed minimum width of the table */
-    width: 100%; /* Allows it to expand beyond min-width if needed */
-    border-collapse: collapse; /* Clean table borders */
+    min-width: 1100px; 
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .no-leads-found-container{
@@ -462,8 +425,6 @@
     background-color: #FEF4FF;
   }
 
-  
-  /* Common styles for status span */
   .status span {
     padding: 8px;
     border-radius: 20px;
@@ -471,7 +432,6 @@
     text-transform: capitalize;
   }
 
-  /* Specific status styles */
   .status.prospects span {
     background-color: #F1F5F9;
     color: #1E293B;
@@ -526,16 +486,12 @@
 
 
   .eye-button{
-    border: none;       /* Removes the border */
-    background: none;   /* Removes the background */
-    color: inherit;     /* Inherits text color from parent */
-    font: inherit;      /* Inherits font style and size */
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
     cursor: pointer; 
   }
-
-  /* .last{
-    width: 200px;
-  } */
 
   @media screen and (max-width: 414px) {
     .input-box input{

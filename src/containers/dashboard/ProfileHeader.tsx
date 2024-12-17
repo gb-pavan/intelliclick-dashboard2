@@ -10,7 +10,6 @@ import styles from './DashboardContainer.module.css';
 export interface IProfileHeaderProps {
   isOpen: boolean;
   toggleSidebar: () => void;
-//   setProfileOpen: (isOpen: boolean | ((prev: boolean) => boolean)) => void;
 setProfileOpen: (updater: (prev: boolean) => boolean) => void;
 }
 
