@@ -6,8 +6,11 @@ const Modal = ({ isOpen, closeModal, children }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <p className="close-btn" onClick={closeModal}>X</p>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="close-btn" onClick={(e) => {
+            e.stopPropagation(); // Stop event from bubbling to the overlay
+            closeModal();
+          }}>X</button>
         {children}
       </div>
     </div>

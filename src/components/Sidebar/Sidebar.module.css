@@ -77,6 +77,19 @@
     color: white;
     background: linear-gradient(to right, #AB1CAF, #519CDF);
   }
+
+  .sidebar ul li.selected {
+  background-color:#FBE8FF; /* Adjust the color as needed */
+  color: #D029D8;
+  font-weight: 600;
+  border-radius: 6px; /* Optional: add rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.sidebar ul li .list-item.icon-selected{
+  color: #D029D8; /* Set the desired color for the icon */
+  transition: color 0.3s ease;
+}
   
   /* List Item */
   .list-item {
@@ -85,6 +98,7 @@
     align-items: center;
     font-size: 18px;
     width: 100%; /* Ensures the item spans the full width */
+    gap: 20px;
   }
   
   .list-item-color {

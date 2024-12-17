@@ -293,13 +293,130 @@
     }
 }
 
+/* Table Filters */
+
+.table-header{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  padding: 10px;
+}
+
+.table-header button {
+  /* border: none;       */
+  background: none;   /* Removes the background */
+  color: inherit;     /* Inherits text color from parent */
+  font: inherit;      /* Inherits font style and size */
+  cursor: pointer;    /* Shows pointer cursor on hover */
+}
+
+.leads{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.leads span{
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.filters{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-dropdown-container{
+  position: relative;
+}
+
+.input-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
+  border-radius: 8px;    /* Slightly rounded corners */
+  color: #64748B;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  gap: 8px;
+  text-align: center;
+  padding: 0 8px;
+}
+
+.search-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
+  border-radius: 8px;    /* Slightly rounded corners */
+  color: #64748B;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 8px;
+  text-align: center;
+}
+
+/* Targeting the second button inside the .search-box */
+.search-box:nth-child(2) {
+  width: 129px; /* Width for Date Range button */
+  color: #64748B;
+}
+
+.search-box:nth-child(3) {
+  width: 83px; /* Width for Filters button */
+  color: #64748B;
+}
+
+.search-box:nth-child(4) {
+  width: 120px; /* Width for Create Lead button */
+  background-color:#18508C;
+  color: white;
+  font-size: 15px;
+}
+
+
+.input-box input{
+  width:300px;
+  padding: 3px;
+  border: none;
+  outline: none;
+}
+
+.search-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d6d2d2; /* Solid border */
+  border-radius: 8px; /* Rounded corners */
+  color: #64748B;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  gap: 8px;
+  text-align: center;
+  padding: 0 8px;
+  width: calc(100% - 40px); /* Occupy the available width minus margins */
+  max-width: 800px; /* Optional: limit the width to avoid being too wide */
+  margin: 20px auto; /* Center horizontally */
+}
+
+.search-display input{
+  outline: none;
+  border: none;
+}
+
+
 /* Leads Table  */
 
 .leads-table {
     margin: 20px;
     padding: 0; /* Remove unnecessary padding */
     border: 1px solid #ddd;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
     overflow-x: auto;
 }
 
@@ -416,6 +533,22 @@
     cursor: pointer; 
   }
 
-  .last{
+  /* .last{
     width: 200px;
+  } */
+
+  @media screen and (max-width: 414px) {
+    .input-box input{
+      display: none;
+    }
+    .filters{
+      gap: 2px;
+    }
+    .table-header{
+      display: flex;
+      justify-content: space-between;
+      margin: 20px;
+      padding: 10px 0px;
+    }
+    
   }

@@ -31,7 +31,7 @@
     position: absolute;
     right: 25px;
     height: 30px;
-    background: linear-gradient(to right,#AB1CAF, #519CDF);
+    background: linear-gradient(to right,#AB1CAF, #519CDF) !important;
     color: white;
     border: none;
     border-radius: 5px;

@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Modal from '@components/Modal/Modal';
 import CreateLeadForm from '@components/CreateLeadForm/CreateLeadForm';
+import Pagination from '@components/Pagination/Pagination';
 import { IoEyeOutline } from "react-icons/io5";
 import { ICreateLead, ILead, IPageParams } from '@interfaces';
 import {leadServiceInstance} from '@services';
@@ -19,15 +20,14 @@ const data = [
   { id: 8, name: 'Hank', phone: '7109876543', standard: '5th', testCount: 1 },
 ];
 
-const LeadsTable = () => {
+const LeadsTable = ({filteredRows,totalLeads}) => {
   const [searchFilter, setSearchFilter] = useState('');
   const [standardFilter, setStandardFilter] = useState('');
   const [sortOrder, setSortOrder] = useState(false);
 
-  const [leads, setLeads] = useState<ICreateLead[]>([]);
+  // const [leads, setLeads] = useState<ICreateLead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [filteredRows, setFilteredRows] = useState([]);
   const [selectedLead, setSelectedLead] = useState<ICreateLead | null>({
     studentName: '',
     mobile: '',
@@ -38,6 +38,8 @@ const LeadsTable = () => {
   });
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCreateLead,setCreateLead] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
 
   const pageParams: IPageParams = { 
@@ -61,9 +63,7 @@ const LeadsTable = () => {
     fetchLeads(); 
   }, []); // Empty dependency array ensures this runs only on initial render
 
-
-  console.log("leads data",leads);
-
+  
   const filteredData = data.filter((item) => {
     const searchLower = searchFilter.toLowerCase();
     const matchesName = item.name.toLowerCase().includes(searchLower);
@@ -76,6 +76,15 @@ const LeadsTable = () => {
     return sortOrder ? a.testCount - b.testCount : b.testCount - a.testCount;
   });
 
+  const handleRowsPerPageChange = (newRowsPerPage:number) => {
+    setLeads({
+      data: [],
+    totalCount: 0,
+    });
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1); // Reset to the first page
+  };
+
   const openModal = (lead:ICreateLead) => {
     setSelectedLead(lead); // Store the selected lead
     setModalOpen(true);
@@ -85,6 +94,12 @@ const LeadsTable = () => {
     setSelectedLead(null); 
     setModalOpen(false);
     setCreateLead(false);
+  };
+
+  const handlePageChange = (page:number) => {
+    setLeads({ data: [],
+    totalCount: 0,});
+    setCurrentPage(page);
   };
 
   const renderTableRows = () => {
@@ -116,10 +131,10 @@ const LeadsTable = () => {
     return filteredRows?.map((lead:ILead, index) => (
       <tr key={index}>
         <td>{lead.studentName || ''}</td>
-        {/* <td>{lead?.class[0]?.name.split(" ")[1] || ''}</td> */}
-        <td>class</td>
+        <td>{lead?.class[0]?.name.split(" ")[1] || ''}</td>
+        {/* <td>class</td> */}
         <td>{lead.mobile || ''}</td>
-        <td className={`status ${lead.status.toLowerCase().replace(" ", "-")}`}>
+        <td className={`${styles.status} ${styles[lead.status.toLowerCase().replace(" ", "-")]}`}>
           <span>{lead.status || ''}</span>
         </td>
         <td>{lead.interactedWith || ''}</td>
@@ -145,12 +160,12 @@ const LeadsTable = () => {
                 <>
                   <h1>Lead Details</h1>
                   <p>Student Name: {selectedLead?.studentName || ''}</p>
-                  {/* <p>Class: {selectedLead?.class[0]?.name.split(" ")[1] || ''}</p> */}
+                  <p>Class: {selectedLead?.class[0]?.name.split(" ")[1] || ''}</p>
                   <p>Phone Number: {selectedLead?.mobile || ''}</p>
-                  {/* <p>Status: {selectedLead?.status || ''}</p> */}
+                  <p>Status: {selectedLead?.status || ''}</p>
                   <p>Interacted With: {selectedLead?.interactedWith || ''}</p>
                   <p>Created By: {selectedLead?.createdBy || ''}</p>
-                  {/* <p>Created At: {(selectedLead?.createdAt && formatToLocalTime(selectedLead.createdAt)) || ''}</p> */}
+                  <p>Created At: {(selectedLead?.createdAt && formatToLocalTime(selectedLead.createdAt)) || ''}</p>
                 </>
               )}
             </Modal>
@@ -185,13 +200,13 @@ const LeadsTable = () => {
             </tbody>
           </table>
         </div>
-        {/* {filteredRows?.length !== "0" && !loading && <Pagination 
+        {filteredRows?.length !== 0 && !loading && <Pagination 
           currentPage={currentPage}
-          totalPages={totalPages} 
+          totalPages={totalLeads} 
           onPageChange={handlePageChange} 
           rowsPerPage={rowsPerPage} 
           onRowsPerPageChange={handleRowsPerPageChange} 
-        />} */}
+        />}
     </div>
   );
 };

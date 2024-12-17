@@ -1,0 +1,85 @@
+.date-filter-show{
+    list-style-type: none;
+    width: 180px;
+    padding: 10px;
+    margin: 0px;
+}
+
+.each-option{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.custom-date-container{
+    display: flex;
+}
+
+.custom-date-picker{
+  width: 380px;
+}
+
+/* Highlight the start and end dates in the range */
+.react-calendar__tile--rangeStart,
+.react-calendar__tile--rangeEnd {
+  background-color: #79d225 !important; /* Replace with your desired color */
+  color: white !important;
+  border-radius: 5px; /* Optional: Make the tiles rounded */
+}
+
+/* Style the in-range dates */
+.react-calendar__tile--range {
+  background-color: #AB1CAF !important; /* Replace with your desired color */
+  color: white !important;
+}
+
+/* Change the background color of today's date */
+.react-calendar__tile--now {
+  background-color: #AB1CAF !important; /* Replace with your desired color */
+  color: white !important; /* Adjust text color if needed */
+  border-radius: 50%; /* Optional: Make it circular */
+}
+
+/* Optional: Change hover effect for today's date */
+.react-calendar__tile--now:hover {
+  background-color: #DB1CAF !important; /* A different pink for hover */
+  color: white !important;
+}
+
+/* Change the background color of selected dates */
+.react-calendar__tile--active {
+  background-color: #AB1CAF !important; /* Green background */
+  color: white !important; /* Adjust the text color */
+  border-radius: 5px; /* Optional: Add rounded corners */
+}
+
+/* Optional: Change hover effect for selected dates */
+.react-calendar__tile--active:hover {
+  background-color: #DB1CAF !important; /* Darker green for hover */
+  color: white !important;
+}
+
+/* Highlight keyboard-selected date */
+.react-calendar__tile--hover {
+  background-color: #AB1CAF !important; /* Replace with your desired color */
+  color: white !important; /* Ensure the text is readable */
+}
+
+/* Ensure other potential selected classes (like ranges) are styled consistently */
+.react-calendar__tile--selecting-rangeStart,
+.react-calendar__tile--selecting-rangeEnd {
+  background-color: #AB1CAF !important;
+  color: white !important;
+}
+
+/* Style other selected date ranges */
+.react-calendar__tile--rangeStart:hover,
+.react-calendar__tile--rangeEnd:hover {
+  background-color: #8B1CAF !important; /* Darker hover color */
+  color: white !important;
+}
+
+
+
+

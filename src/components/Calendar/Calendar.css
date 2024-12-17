@@ -1,0 +1,112 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.header button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.header button:hover {
+    background-color: #0056b3;
+}
+
+.header span {
+    font-weight: bold;
+}
+
+.day-names, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+}
+
+.day-name {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.empty-day, .day {
+    position: relative; /* Added for positioning child elements */
+    border: 1px solid #ddd;
+    height: 150px;
+    width: 150px;
+    padding-top: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: flex-start; /* Align text at the bottom */
+    justify-content: flex-end;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    color: rgb(139, 141, 140);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.day:hover {
+    background-color: #eef;
+}
+
+.day.today {
+    background-color: #fb9b51;
+    border-color: #c3e6cb;
+}
+
+.day.selected {
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.today-present{
+    background-color: green;
+}
+
+.day::before {
+    content: attr(data-day); /* Display the day number from the data-day attribute */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.8em;
+    color: #666;
+    font-weight: bold;
+}
+
+@media (max-width: 1056px) { /* For tablets and smaller devices */
+  .empty-day, .day {
+    height: 100px; /* Decreased height */
+    width: 100px; /* Decreased width */
+    font-size: 16px; /* Adjust font size */
+  }
+}
+
+@media (max-width: 700px) { /* For mobile devices */
+  .empty-day, .day {
+    height: 80px; /* Further decreased height */
+    width: 80px; /* Further decreased width */
+    font-size: 14px; /* Further adjust font size */
+  }
+}
+
+@media (max-width: 576px) { /* For mobile devices */
+  .empty-day, .day {
+    height: 50px; /* Further decreased height */
+    width: 50px; /* Further decreased width */
+    font-size: 14px; /* Further adjust font size */
+  }
+}

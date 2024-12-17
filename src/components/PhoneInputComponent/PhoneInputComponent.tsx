@@ -2,6 +2,9 @@ import React, { useState,useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./PhoneInputComponent.css";
+import { leadServiceInstance } from "@/services";
+import { AxiosError } from "axios";
+import { handleError } from "@/utils/helpers";
 
 const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }) => {
   const [phone, setPhone] = useState("");
@@ -28,14 +31,25 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }) =>
   };
 
   const handleSendOtp = async () => {
-    // if(true) setResendOtp(true);
-    const endpoint = "api/authentication/otp";
+    // const payload = JSON.stringify({phone:"+"+phone})
+    // const otpResponse = await leadServiceInstance.sendOtp(payload);
+    // if (otpResponse.message === "OTP saved successfully!") setResendOtp(true);
+    // setOtpSent(true);
+    // setTimer(60); 
+    
+    try {
+        const payload = JSON.stringify({ phone: "+" + phone });
+        const otpResponse = await leadServiceInstance.sendOtp(payload);
 
-    const payload = JSON.stringify({phone:"+"+phone})
-    const otpResponse = await fetchData(endpoint,payload);
-    if (otpResponse.message === "OTP saved successfully!") setResendOtp(true);
-    setOtpSent(true);
-    setTimer(60);    
+        if (otpResponse.message === "OTP saved successfully!") {
+            setResendOtp(true);
+        }
+        setOtpSent(true);
+        setTimer(60);
+    } catch (error) {
+        handleError(error as AxiosError,true);
+    }
+
   };
 
   return (

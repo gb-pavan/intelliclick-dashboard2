@@ -3,6 +3,8 @@ import "./CreateLeadForm.css";
 import PhoneInputComponent from "../PhoneInputComponent/PhoneInputComponent";
 import ClipLoader from 'react-spinners/ClipLoader';
 import { handleError } from '@utils/helpers';
+import { AxiosError } from "axios";
+import { leadServiceInstance } from "@/services";
 
 
 const CreateLeadForm = ({onSubmit,refCode = ''}) => {
@@ -34,17 +36,23 @@ const CreateLeadForm = ({onSubmit,refCode = ''}) => {
 
   const [classOptions, setClassOptions] = useState([]);
   const [classDetails,setClassDetails] = useState([]);
-  const [isClassLoading, setClassLoading] = useState(true);
-  const endpoint = "api/standard/read/get-all";
-const { data, loading, error } = useFetchData(endpoint);
+  const [isClassLoading, setClassLoading] = useState(false);
+  
+  
+   useEffect(() => {
+    const fetchLeadClasses = async () => {
+      try {
+        setClassLoading(true);
+        const data = await leadServiceInstance.getLeadsClass();  
+        setClassDetails(data);
+        setClassLoading(false);
+      } catch (err) {
+        handleError(err as AxiosError,true)
+      }
+    };
 
-useEffect(() => {
-    if (error) {
-        handleError(error , true);
-    } else {
-      setClassDetails(data);
-    }
-  }, [data, error]); 
+    fetchLeadClasses(); 
+  }, []);
 
 
   const classList = classDetails?.map(eachClass => eachClass.name);
@@ -59,16 +67,23 @@ useEffect(() => {
   };
 
   const handleVerifyOtp = async () => {
-    const endpoint = "api/authentication/verify";
-    const payload = JSON.stringify({phone:formData.phone ,code:verifyOtp})
-    const otpVerifyResponse = await fetchData(endpoint,payload);
-    if(otpVerifyResponse.message){
-      setVerifyOtp("");
-      setOtpSent(false);
+    
+    try {
+        const payload = JSON.stringify({ phone: formData.phone, code: verifyOtp });
+        const otpVerifyResponse = await leadServiceInstance.verifyOtp(payload);
+
+        if (otpVerifyResponse.message) {
+            setVerifyOtp("");
+            setOtpSent(false);
+        }
+
+        if (otpVerifyResponse.message === "OTP verified successfully!") {
+            setOtpVerifyMessage(otpVerifyResponse.message);
+        }
+    } catch (error) {
+        handleError(error as AxiosError,true);
     }
-    if(otpVerifyResponse.message==="OTP verified successfully!"){
-      setOtpVerifyMessage(otpVerifyResponse.message);
-    }   
+
   }
 
   const handleSubmit = async (e) => {
@@ -106,14 +121,6 @@ useEffect(() => {
       newErrors.interactedWith = "Interaction field is required";
       formIsValid = false;
     }
-    // if (!location.selectedState.trim()) {
-    //   newErrors.selectedState = "State field is required";
-    //   formIsValid = false;
-    // }
-    // if (!location.selectedDistrict.trim()) {
-    //   newErrors.selectedDistrict = "District field is required";
-    //   formIsValid = false;
-    // }
 
     setErrors(newErrors);
 
@@ -132,11 +139,10 @@ useEffect(() => {
     };
 
     try {
-      const endpoint = "api/lead-app/lead/write/create-or-update";
-      const data = await fetchData(endpoint, payload);
+      const data = await leadServiceInstance.createLead(payload);
       onSubmit();
     } catch (error) {
-        handleError(error, true);
+        handleError(error as AxiosError, true);
     }
   };
 
@@ -206,7 +212,7 @@ useEffect(() => {
 
         <div className="group-fields">
           <div style={{width:"45%", marginLeft:"0px"}}>
-              {loading ? (
+              {isClassLoading ? (
                 <ClipLoader color="#36d7b7" loading={true} size={30} />
                 ) : (
               <select

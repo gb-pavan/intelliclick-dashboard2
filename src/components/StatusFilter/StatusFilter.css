@@ -1,0 +1,59 @@
+.dropdown-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d6d2d2; /* Solid border with a 2px width and black color */
+  border-radius: 8px;    /* Slightly rounded corners */
+  color: #64748B;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 8px;
+  text-align: center;
+}
+
+.status-filter-show{
+    list-style-type: none;
+    width: 190px;
+    padding: "10px 0px";
+    margin: 0px;
+}
+
+/* .status-color-box{
+    background-color: red;
+    height: 20px;
+    width: 2px;
+} */
+
+.status-color-box {
+  display: inline-block; /* Makes it behave like a box */
+  width: 16px; /* Set width for the box */
+  height: 16px; /* Set height for the box */
+  border-radius: 4px; /* Optional: Rounds the corners slightly */
+  margin-right: 8px; /* Adds space between the box and text */
+  margin-left: 8px;
+}
+
+.style-list{
+    position:absolute;
+    background-color: white;
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    width: 200px;
+}
+
+.each-status{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+  .down-arrow{
+    cursor: pointer;
+    color: #64748B;
+    width: 10px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    font-size: 16px;
+  }

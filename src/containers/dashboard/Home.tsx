@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect,useRef } from 'react';
 import {leadServiceInstance} from '@services';
 import {ILead,ILeadSummary} from '@interfaces'
@@ -12,13 +10,10 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import { ICreateLead, IPageParams } from '@interfaces';
 import styles from './DashboardContainer.module.css';
 import TableFilters from './TableFilters';
-import Home from './Home';
-import Attendance from '@/components/Attendance/Attendance';
 
-export const DashboardContainer: React.FC = () => {
+const Home = () => {
 
-  // const [leads, setLeads] = useState<ILead[]>([]);
-  const [leadSummary, setLeadSummary] = useState<ILeadSummary>({
+    const [leadSummary, setLeadSummary] = useState<ILeadSummary>({
     totalLeads: 0,
     todayLeads: 0,
     yesterdayLeads: 0,
@@ -62,7 +57,7 @@ export const DashboardContainer: React.FC = () => {
     };
 
     fetchLeads(); 
-  }, []);
+  }, []); // Empty dependency array ensures this runs only on initial render
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -106,70 +101,25 @@ export const DashboardContainer: React.FC = () => {
     fetchLeadSummary();
   },[]);
 
-  const handleSearch = () => {
-    setSearch((prevSearch) => !prevSearch); // Toggle the search value
-    inputRef.current?.focus();
-  };
+    const handleSearch = () => {
+        setSearch((prevSearch) => !prevSearch); // Toggle the search value
+        inputRef.current?.focus();
+    };
 
-   const renderContent = () => {
-    switch (selectedItem) {
-      case "home":
-        return (
-          <Home />
-        );
-      case "attendance":
-        return (
-          <Attendance />
-        )
-      // case "leads":
-      //   return (
-      //     <div>
-      //       <Header />
-      //       <LeadsTable />
-      //     </div>
-      //   );
-      // case "profile":
-      //   return <YourProfile />;
-      // case "reports":
-      //   return <Reports />;
-      // case "analytics":
-      //   return <Analytics />;
-      // Add more cases for other sidebar items
-      default:
-        return <div>Select an item from the sidebar</div>;
-    }
-  };
-
-
-  return (
-    <div className="dashboard">
-      {false ? (
-        <p>Loading...</p>
-        ) : (
-          <div className={styles['dashboard-layout']}>
-            <ProfileHeader isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} setProfileOpen={setProfileOpen} />
-            <div className={styles["dashboard-body"]}>
-              
-              <div className={styles["dashboard-sidebar"]}>
-                <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} setProfileOpen={setProfileOpen} setSelectedItem={setSelectedItem} />
-              </div>
-              
-              <div className={styles["dashboard-main-content"]}> 
-                {renderContent()}             
-                {/* <div className={styles["user-welcome-info-container"]}>
-                  <h1>Welcome, Shubham Kumar</h1>
-                  <p>
-                    "Attendance Criteria, have to make 15 Leads to make present"
-                  </p>
-                </div>
-                <LeadSummary leadSummary={leadSummary} />
-                <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} />
-                {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
-                <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} /> */}
-              </div>
+    return (
+        <div>
+            <div className={styles["user-welcome-info-container"]}>
+                <h1>Welcome, Shubham Kumar</h1>
+                <p>
+                  "Attendance Criteria, have to make 15 Leads to make present"
+                </p>
             </div>
-          </div>
-        )}
-    </div>
-  );
-};
+            <LeadSummary leadSummary={leadSummary} />
+            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} />
+            {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
+            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} />
+        </div>
+    )
+}
+
+export default Home;
