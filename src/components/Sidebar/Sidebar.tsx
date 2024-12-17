@@ -78,6 +78,8 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 // import { useNavigate,Link } from "react-router-dom";
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import logo from '../../public/images/logo.svg';
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -87,9 +89,7 @@ export interface SidebarProps {
 }
 
 function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:SidebarProps) {
-  // const navigate = useNavigate();
-
-  // const { push } = useRouter();
+  
   const router = useRouter();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -98,10 +98,6 @@ function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:Sideb
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
-
-  // const handleAttendance = () => {
-  //   navigate("/attendance"); // Replace with your actual attendance page route
-  // };
 
   const menuItems = [
     { icon: <RxDashboard size={30} color="black" />, path:"home", label: "Home" },
@@ -118,7 +114,7 @@ function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:Sideb
     { icon: <FiLogOut size={30} color="black" />, label: "Sign Out"},
   ];
 
-  const handleItem = item =>{
+  const handleItem = (item:string) =>{
     setClickedItem(item);
     setSelectedItem(item);
   }
@@ -131,8 +127,9 @@ function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:Sideb
       onMouseLeave={handleMouseLeave}
     >
       {isOpen && (
-        <div className="open-close-c-logo">
-          <img src="./logo.svg" alt="logo" />
+        <div className={styles["open-close-c-logo"]}>
+          {/* <img src="./logo.svg" alt="logo" /> */}
+          <Image src={logo} alt="logo" />
           <IoClose size={30} onClick={toggleSidebar} className={styles["close-icon"]} />
         </div>
       )}
