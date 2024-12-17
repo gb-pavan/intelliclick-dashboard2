@@ -9,7 +9,7 @@ import { leadServiceInstance } from '@/services';
 const Attendance = () => {
 //   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [qualified,setQualified] = useState('');
+  const [qualified,setQualified] = useState<{ data?: { _id: string; count: number }[] } | null>(null);
   const [attendance,setAttendance] = useState(false);
   const qualifiedCount = qualified?.data?.find(item => item._id === "Qualified")?.count || 0;
 
@@ -26,46 +26,32 @@ const Attendance = () => {
     const getQualifiedCount = async () => {
         
         const response = await leadServiceInstance.getLeadsCount();
-        const qualified = response?.data?.find(item => item._id === "Qualified")?.count || 0;
-        setQualified(qualified);
+        // const qualified = response?.data?.find(item => item._id === "Qualified")?.count || 0;
+        setQualified(response);
     }   
 
     getQualifiedCount()
   },[])
 
-  const isToday = (date) => {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  };
-
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   return (
     <div className="attendance-container" style={{
-    display: 'flex', 
-    flexDirection:'column',       
-    justifyContent: 'center', 
-    alignItems: 'center',    
-    height: '100vh',        
-  }}>
-      <h1 style={{color:'green'}}>
-        React Calendar Example
-      </h1>
-      <Calendar qualifiedCount={qualifiedCount} attendance={attendance} />
-      {qualified && (
-        <p style={{color:'black'}}>
-            Qualified Count:<span style={{
-              color: qualifiedCount >= 10 ? 'green' : 'red',
-            }}>{qualifiedCount >= 10?'Present':'Absent'}</span>
-        </p>
-      )}
+      display: 'flex', 
+      flexDirection:'column',       
+      justifyContent: 'center', 
+      alignItems: 'center',    
+      height: '100vh',        
+    }}>
+        <h1 style={{color:'green'}}>
+          React Calendar Example
+        </h1>
+        <Calendar qualifiedCount={qualifiedCount} attendance={attendance} />
+        {qualified && (
+          <p style={{color:'black'}}>
+              Qualified Count:<span style={{
+                color: qualifiedCount >= 10 ? 'green' : 'red',
+              }}>{qualifiedCount >= 10?'Present':'Absent'}</span>
+          </p>
+        )}
     </div>
   );
 };

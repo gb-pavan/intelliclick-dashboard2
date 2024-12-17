@@ -1,7 +1,13 @@
-import React from 'react';
+import React,{ ReactNode } from 'react';
 import './Modal.css'; // This is for styling, you can customize it
 
-const Modal = ({ isOpen, closeModal, children }) => {
+interface ModalProps{
+  isOpen: boolean;
+  closeModal: () => void;
+  children?: ReactNode; // ReactNode allows for any valid React child
+}
+
+const Modal = ({ isOpen, closeModal, children }:ModalProps) => {
   if (!isOpen) return null;
 
   return (
