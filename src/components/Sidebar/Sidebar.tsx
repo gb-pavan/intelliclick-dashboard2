@@ -11,8 +11,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import logo from '../../public/images/logo.svg';
-
+import logo from '@public/images/logo.svg';
 export interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;

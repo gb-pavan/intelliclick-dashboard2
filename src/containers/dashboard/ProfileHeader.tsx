@@ -1,9 +1,8 @@
 import React from 'react';
-import { IoClose } from "react-icons/io5";
 import { FaToggleOff } from "react-icons/fa6";
 import { IoMenu } from "react-icons/io5";
-import logo from '../../public/images/logo.svg';
-import Ellipse from '../../public/images/Ellipse.svg'
+import logo from '@public/images/logo.svg';
+import Ellipse from '@public/images/Ellipse.svg';
 import Image from 'next/image';
 import styles from './DashboardContainer.module.css';
 
