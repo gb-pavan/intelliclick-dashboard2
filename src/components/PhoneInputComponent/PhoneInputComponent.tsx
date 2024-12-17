@@ -6,13 +6,20 @@ import { leadServiceInstance } from "@/services";
 import { AxiosError } from "axios";
 import { handleError } from "@/utils/helpers";
 
-const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }) => {
+interface PhoneInputComponentProps {
+  onPhoneChange: (value: string) => void;
+  setOtpSent: (value: boolean) => void;
+  setCountry: (value: string) => void;
+  refCode: string;
+}
+
+const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }:PhoneInputComponentProps) => {
   const [phone, setPhone] = useState("");
   const [resendOtp,setResendOtp] = useState(false);
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout | undefined; // Type interval as NodeJS.Timeout
     if (timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -24,7 +31,7 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }) =>
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handlePhoneChange = (value,countryData) => {
+  const handlePhoneChange = (value: string, countryData: { name: string }) => {
     setCountry(countryData.name);
     setPhone(value); // Update local state
     onPhoneChange(value); // Pass the value to the parent
@@ -58,7 +65,7 @@ const PhoneInputComponent = ({ onPhoneChange,setOtpSent,setCountry,refCode }) =>
           country={"in"}
           value={phone}
           onChange={handlePhoneChange}
-          className="custom-phone-input" // Custom class for PhoneInput
+          containerClass="custom-phone-input" // Custom class for PhoneInput
           buttonClass="custom-phone-dropdown" // Custom class for dropdown button
           searchClass="custom-phone-search" // Custom class for dropdown search box
           inputProps={{

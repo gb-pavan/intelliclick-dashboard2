@@ -1,7 +1,17 @@
+export interface IClass {
+  name: string; // e.g., "Class 6th"
+  // board: string; // e.g., "CBSC"
+  // subjects: string[]; // Array of subjects, e.g., ['Mathematics', 'Science', 'English', 'Hindi']
+  // telecrmClassName: string; // e.g., "6th"
+  // createdAt: string;
+  // updatedAt: string;
+  _id: string; // Assuming unique identifier for class
+}
+
 export interface ILead {
   board: string;
   city: string;
-  class: string[];
+  class: IClass[];
   createdAt: string; 
   createdBy: string; 
   creationStatus: string;

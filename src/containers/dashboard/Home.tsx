@@ -25,14 +25,14 @@ const Home = () => {
   const [pageSize, setPageSize] = useState(10);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen,setProfileOpen] = useState<boolean>(false);
-  const [filteredRows, setFilteredRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState<ILead[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [search,setSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const [selectedItem, setSelectedItem] = useState("home"); // Default to "home"
-  const [refetchLeads,setRefetchLeads] = useState(false);
-  const inputRef = useRef(null);
-  const [leads, setLeads] = useState({
+  const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [leads, setLeads] = useState<{ data: ILead[]; totalCount: number }>({
     data: [],
     totalCount: 0,
   });
@@ -75,7 +75,7 @@ const Home = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
 
@@ -85,13 +85,15 @@ const Home = () => {
         const className = row?.class[0]?.name?.toLowerCase() || "";
         const interactedWith = row?.interactedWith?.toLowerCase() || "";
         const createdBy = row?.createdBy?.toLowerCase() || "";
+        const created = row?.creationStatus?.toLocaleLowerCase() || "";
 
         return (
             studentName.includes(query) ||
             phoneNumber.includes(query) ||
             className.includes(query) ||
             interactedWith.includes(query) ||
-            createdBy.includes(query)
+            createdBy.includes(query) ||
+            created.includes(query)
         );
         });
 
@@ -129,7 +131,7 @@ const Home = () => {
             <LeadSummary leadSummary={leadSummary} />
             <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} />
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
-            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} />
+            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} />
         </div>
     )
 }

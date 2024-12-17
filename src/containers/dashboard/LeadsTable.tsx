@@ -20,7 +20,14 @@ const data = [
   { id: 8, name: 'Hank', phone: '7109876543', standard: '5th', testCount: 1 },
 ];
 
-const LeadsTable = ({filteredRows,totalLeads}) => {
+interface LeadsTableProps{
+  filteredRows:ILead[];
+  totalLeads:number;
+  setLeads: (leads: { data: ILead[]; totalCount: number }) => void;
+}
+
+const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
+
   const [searchFilter, setSearchFilter] = useState('');
   const [standardFilter, setStandardFilter] = useState('');
   const [sortOrder, setSortOrder] = useState(false);
@@ -28,14 +35,15 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
   // const [leads, setLeads] = useState<ICreateLead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedLead, setSelectedLead] = useState<ICreateLead | null>({
-    studentName: '',
-    mobile: '',
-    standard: '',
-    createdBy: '',
-    board: '',
-    interactedWith: ''
-  });
+  // const [selectedLead, setSelectedLead] = useState<ICreateLead | null>({
+  //   studentName: '',
+  //   mobile: '',
+  //   standard: '',
+  //   createdBy: '',
+  //   board: '',
+  //   interactedWith: ''
+  // });
+  const [selectedLead, setSelectedLead] = useState<ILead | null>();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCreateLead,setCreateLead] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,21 +55,21 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
     pageSize: 10 
   };
 
-  useEffect(() => {
-    const fetchLeads = async () => {
-      try {
-        const data = await leadServiceInstance.getLeadsByParams(pageParams);  
-        setLeads(data);
-        setFilteredRows(data?.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Error fetching leads');
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchLeads = async () => {
+  //     try {
+  //       const data = await leadServiceInstance.getLeadsByParams(pageParams);  
+  //       setLeads(data);
+  //       setFilteredRows(data?.data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError('Error fetching leads');
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchLeads(); 
-  }, []); // Empty dependency array ensures this runs only on initial render
+  //   fetchLeads(); 
+  // }, []); // Empty dependency array ensures this runs only on initial render
 
   
   const filteredData = data.filter((item) => {
@@ -85,7 +93,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
     setCurrentPage(1); // Reset to the first page
   };
 
-  const openModal = (lead:ICreateLead) => {
+  const openModal = (lead:ILead) => {
     setSelectedLead(lead); // Store the selected lead
     setModalOpen(true);
   };
@@ -103,7 +111,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
   };
 
   const renderTableRows = () => {
-    if (loading) {
+    if (!loading) {
       return (
         <tr>
           <td colSpan={8} style={{ textAlign: 'center' }}>
@@ -128,7 +136,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
     }
 
     
-    return filteredRows?.map((lead:ILead, index) => (
+    return filteredRows?.map((lead:ILead, index:number) => (
       <tr key={index}>
         <td>{lead.studentName || ''}</td>
         <td>{lead?.class[0]?.name.split(" ")[1] || ''}</td>
@@ -154,9 +162,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
           </div>          
           {isModalOpen && (
             <Modal isOpen={isModalOpen} closeModal={closeModal}>
-              {isCreateLead ? (
-                <CreateLeadForm onSubmit={closeModal} />
-              ) : (
+              
                 <>
                   <h1>Lead Details</h1>
                   <p>Student Name: {selectedLead?.studentName || ''}</p>
@@ -167,7 +173,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
                   <p>Created By: {selectedLead?.createdBy || ''}</p>
                   <p>Created At: {(selectedLead?.createdAt && formatToLocalTime(selectedLead.createdAt)) || ''}</p>
                 </>
-              )}
+              
             </Modal>
           )}
         </td>
@@ -200,7 +206,7 @@ const LeadsTable = ({filteredRows,totalLeads}) => {
             </tbody>
           </table>
         </div>
-        {filteredRows?.length !== 0 && !loading && <Pagination 
+        {filteredRows?.length !== 0 && loading && <Pagination 
           currentPage={currentPage}
           totalPages={totalLeads} 
           onPageChange={handlePageChange} 

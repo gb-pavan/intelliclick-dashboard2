@@ -163,16 +163,25 @@
 
 import { useState, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa6";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
 import { default as CustomCalendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "./DateFilter.css";
 
-const DateFilter = ({ options, onSelectionChange }) => {
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
+interface DateFilterProps {
+  options: string[]; // Array of date options (e.g., ["Today", "This Week", "Custom Date"])
+  onSelectionChange: (selectedOption: string, startDate?: Date, endDate?: Date) => void;
+}
+
+
+const DateFilter = ({ options, onSelectionChange }:DateFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [dateRange, setDateRange] = useState([null, null]); // [startDate, endDate]
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  // const [dateRange, setDateRange] = useState([null, null]); // [startDate, endDate]
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]); 
   const [startDate, endDate] = dateRange;
 
   // Avoid triggering onSelectionChange repeatedly on every render
@@ -185,7 +194,7 @@ const DateFilter = ({ options, onSelectionChange }) => {
     }
   }, [startDate, endDate, selectedOption]); // Removed onSelectionChange from the dependencies
 
-  const handleOptionChange = (option) => {
+  const handleOptionChange = (option:string) => {
     setSelectedOption(option);
     if (option === "Custom Date") {
       setIsOpen(true); // Keep the dropdown open for custom date
@@ -194,11 +203,21 @@ const DateFilter = ({ options, onSelectionChange }) => {
     }
   };
 
-  const handleDateChange = (update) => {
-    setDateRange(update);
-    // Trigger filtering only when both dates are selected
-    if (update[0] && update[1]) {
-      onSelectionChange?.("Custom Date", update[0], update[1]);
+  // const handleDateChange = (update: Value) => {
+  //   setDateRange(update);
+  //   // Trigger filtering only when both dates are selected
+  //   if (update[0] && update[1]) {
+  //     onSelectionChange?.("Custom Date", update[0], update[1]);
+  //   }
+  // };
+
+  const handleDateChange = (update: Value) => {
+    // Check if `update` is an array (as we expect a range)
+    if (Array.isArray(update) && update.length === 2) {
+      setDateRange(update as [Date | null, Date | null]);
+      if (update[0] && update[1]) {
+        onSelectionChange("Custom Date", update[0], update[1]);
+      }
     }
   };
 

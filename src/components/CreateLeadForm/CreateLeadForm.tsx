@@ -5,9 +5,17 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { handleError } from '@utils/helpers';
 import { AxiosError } from "axios";
 import { leadServiceInstance } from "@/services";
+import { IClass } from "@/interfaces";
+
+interface CreateLeadFormProps {
+  onSubmit?: () => void; // The function to handle the lead submission
+  closeModal: () => void; // The function to handle modal close
+  refCode?: string; // Optional reference code (string)
+}
 
 
-const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
+
+const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}:CreateLeadFormProps) => {
   const [isOtpSent, setOtpSent] = useState(false);
   const [verifyOtp, setVerifyOtp] = useState("");
   const [country, setCountry] = useState("India");
@@ -35,7 +43,7 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
   });
 
   const [classOptions, setClassOptions] = useState([]);
-  const [classDetails,setClassDetails] = useState([]);
+  const [classDetails,setClassDetails] = useState<IClass[]>([]);
   const [isClassLoading, setClassLoading] = useState(false);
   
   
@@ -43,7 +51,7 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
     const fetchLeadClasses = async () => {
       try {
         setClassLoading(true);
-        const data = await leadServiceInstance.getLeadsClass();  
+        const data = await leadServiceInstance.getLeadsClass(); 
         setClassDetails(data);
         setClassLoading(false);
       } catch (err) {
@@ -57,12 +65,18 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
 
   const classList = classDetails?.map(eachClass => eachClass.name);
 
-  const handleInputChange = useCallback((e) => {
+  // const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;    
+  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
+  // }, []);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;    
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
 
-  const handlePhoneChange = (phone) => {
+
+  const handlePhoneChange = (phone:string) => {
     setFormData((prevData) => ({ ...prevData, phone }));
   };
 
@@ -86,7 +100,7 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
 
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
 
@@ -141,7 +155,7 @@ const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
     try {
       const data = await leadServiceInstance.createLead(payload);
       closeModal();
-      onSubmit();
+      {onSubmit && onSubmit();}
     } catch (error) {
         handleError(error as AxiosError, true);
     }

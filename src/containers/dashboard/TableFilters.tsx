@@ -6,8 +6,20 @@ import { IoIosSearch } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import Modal from '@/components/Modal/Modal';
 import styles from './DashboardContainer.module.css';
+import { ILead } from '@/interfaces';
 
-const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads}) => {
+interface TableFiltersProps {
+  leads: ILead[];// Define leads as an object with `data` and `totalCount`
+  // setFilteredRows: React.Dispatch<React.SetStateAction<ILead[]>>; // Set filtered rows with `ILead[]`
+  setFilteredRows: (value: ILead[]) => void;
+  handleSearch: () => void;
+  handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // setRefetchLeads: React.Dispatch<React.SetStateAction<boolean>>; // Boolean for refetching leads
+  setRefetchLeads: (value: boolean) => void; // Directly accepts a boolean
+}
+
+
+const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads}:TableFiltersProps) => {
 
     const [isSearchCompressed,setIsSearchCompressed] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -68,7 +80,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         setCreateLead(prev => !prev);
     }    
 
-      const handleStatusChange = (selected) => {
+      const handleStatusChange = (selected:string[]) => {
 
       const filtered = leads?.filter((row) => selected.some((status) => status.toLowerCase() === row.status.toLowerCase()));
 
@@ -85,9 +97,9 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     
   };
 
-     const handleTimeRangeChange = (selectedOption,customStartDate=null,customEndDate=null) => {
+     const handleTimeRangeChange = (selectedOption:string,customStartDate: Date | undefined=undefined,customEndDate: Date | undefined=undefined) => {
     const today = new Date();
-    let filteredData = [];
+    let filteredData:ILead[] = [];
 
     switch (selectedOption) {
       case "Today":
@@ -171,7 +183,6 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
 
       const closeModal = () => {
     // setSelectedLead(null); 
-    console.log("closing");
     setModalOpen(prev =>!prev);
     setCreateLead(prev => !prev);
   };
@@ -181,7 +192,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
             return (
             <div className={styles["filters"]}>
                 <div className={styles["input-box"]}>
-                <IoIosSearch size={20} onClick={isSearchCompressed ? handleSearch : null} />
+                <IoIosSearch size={20} onClick={isSearchCompressed ? handleSearch : undefined} />
                 <input type="text" placeholder="Search" onChange={handleSearchChange} />
                 </div>
                 <div>
