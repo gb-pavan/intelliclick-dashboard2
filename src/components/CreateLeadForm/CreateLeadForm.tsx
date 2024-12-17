@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { leadServiceInstance } from "@/services";
 
 
-const CreateLeadForm = ({onSubmit,refCode = ''}) => {
+const CreateLeadForm = ({onSubmit,closeModal,refCode = ''}) => {
   const [isOtpSent, setOtpSent] = useState(false);
   const [verifyOtp, setVerifyOtp] = useState("");
   const [country, setCountry] = useState("India");
@@ -140,6 +140,7 @@ const CreateLeadForm = ({onSubmit,refCode = ''}) => {
 
     try {
       const data = await leadServiceInstance.createLead(payload);
+      closeModal();
       onSubmit();
     } catch (error) {
         handleError(error as AxiosError, true);

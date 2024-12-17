@@ -30,6 +30,7 @@ const Home = () => {
   const [search,setSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const [selectedItem, setSelectedItem] = useState("home"); // Default to "home"
+  const [refetchLeads,setRefetchLeads] = useState(false);
   const inputRef = useRef(null);
   const [leads, setLeads] = useState({
     data: [],
@@ -58,6 +59,17 @@ const Home = () => {
 
     fetchLeads(); 
   }, []); // Empty dependency array ensures this runs only on initial render
+
+  useEffect(()=>{
+    const reFetchLeads = async () => {
+        if (refetchLeads){
+        const data = await leadServiceInstance.getLeadsByParams(pageParams);  
+        setLeads(data);
+        setFilteredRows(data?.data);
+      }
+    }
+    reFetchLeads();
+  },[refetchLeads]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -115,7 +127,7 @@ const Home = () => {
                 </p>
             </div>
             <LeadSummary leadSummary={leadSummary} />
-            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} />
+            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} />
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
             <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} />
         </div>

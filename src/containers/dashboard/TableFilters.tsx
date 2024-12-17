@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa6";
 import Modal from '@/components/Modal/Modal';
 import styles from './DashboardContainer.module.css';
 
-const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange}) => {
+const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads}) => {
 
     const [isSearchCompressed,setIsSearchCompressed] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -58,6 +58,10 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange}) =
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+     const handleLeadSubmit = () => {
+        setRefetchLeads(true);
+     }
 
      const handleCreateLead = () => {
         setModalOpen(prev => !prev);
@@ -190,8 +194,8 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange}) =
                 <FaPlus size={14} />
                 Create Lead
                 {isModalOpen && isCreateLead && (
-                    <Modal isOpen={isModalOpen && isCreateLead} closeModal={closeModal}>
-                        <CreateLeadForm onSubmit={closeModal} />
+                    <Modal isOpen={isModalOpen && isCreateLead} closeModal={closeModal} >
+                        <CreateLeadForm onSubmit={handleLeadSubmit} closeModal={closeModal} />
                     </Modal>
                 )}                
                 </div>
