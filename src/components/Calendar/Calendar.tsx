@@ -44,11 +44,11 @@ const Calendar = ({ qualifiedCount, attendance }:CalendarProps) => {
   return (
     <div className="calendar">
       <div className="header">
-        <button onClick={prevMonth}>&lt;</button>
+        <button onClick={prevMonth} style={{backgroundColor:'#FBE8FF',color:'#AB1CAF'}}>&lt;</button>
         <span>
           {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
         </span>
-        <button onClick={nextMonth}>&gt;</button>
+        <button onClick={nextMonth} style={{backgroundColor:'#FBE8FF',color:'#AB1CAF'}}>&gt;</button>
       </div>
       <div className="day-names">
         {dayNames.map((day) => (
