@@ -30,15 +30,24 @@ const Home = () => {
   const [selectedItem, setSelectedItem] = useState("home");
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+   const [pageParams, setPageParams] = useState<IPageParams>({
+    pageNum: 1,
+    pageSize: 10
+  });
   const [leads, setLeads] = useState<{ data: ILead[]; totalCount: number }>({
     data: [],
     totalCount: 0,
   });
 
-   const pageParams: IPageParams = { 
-    pageNum: 1, 
-    pageSize: 10 
-  };
+
+  useEffect(()=>{
+    const getPageLeads = async () => {        
+        const data = await leadServiceInstance.getLeadsByParams(pageParams);  
+        setLeads(data);
+        setFilteredRows(data?.data);      
+    }
+    getPageLeads();
+  },[pageParams]);
 
   
 
@@ -129,7 +138,7 @@ const Home = () => {
             <LeadSummary leadSummary={leadSummary} />
             <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} />
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
-            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} />
+            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} />
         </div>
     )
 }

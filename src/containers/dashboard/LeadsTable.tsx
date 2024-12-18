@@ -22,9 +22,10 @@ interface LeadsTableProps{
   filteredRows:ILead[];
   totalLeads:number;
   setLeads: (leads: { data: ILead[]; totalCount: number }) => void;
+  setPageParams: (newParams: IPageParams) => void;
 }
 
-const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
+const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableProps) => {
 
   const [searchFilter, setSearchFilter] = useState('');
   const [standardFilter, setStandardFilter] = useState('');
@@ -63,6 +64,10 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
     });
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
+    setPageParams({
+      pageNum:1,
+      pageSize:newRowsPerPage,
+    })
   };
 
   const openModal = (lead:ILead) => {
@@ -80,6 +85,10 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads}:LeadsTableProps) => {
     setLeads({ data: [],
     totalCount: 0,});
     setCurrentPage(page);
+    setPageParams({
+      pageNum:page,
+      pageSize:rowsPerPage,
+    })
   };
 
   const renderTableRows = () => {
