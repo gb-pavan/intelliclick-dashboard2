@@ -14,6 +14,7 @@ import styles from './DashboardContainer.module.css';
 import TableFilters from './TableFilters';
 import Home from './Home';
 import Attendance from '@/components/Attendance/Attendance';
+import Profile from './Profile';
 
 export const DashboardContainer: React.FC = () => {
 
@@ -97,6 +98,10 @@ export const DashboardContainer: React.FC = () => {
       case "attendance":
         return (
           <Attendance />
+        );
+      case "profile":
+        return (
+          <Profile />
         )
       default:
         return <div>Select an item from the sidebar</div>;
@@ -110,7 +115,7 @@ export const DashboardContainer: React.FC = () => {
         <p>Loading...</p>
         ) : (
           <div className={styles['dashboard-layout']}>
-            <ProfileHeader isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} setProfileOpen={setProfileOpen} />
+            <ProfileHeader isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} setProfileOpen={setProfileOpen} setSelectedItem={setSelectedItem}/>
             <div className={styles["dashboard-body"]}>
               
               <div className={styles["dashboard-sidebar"]}>

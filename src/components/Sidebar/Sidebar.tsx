@@ -41,8 +41,8 @@ function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:Sideb
   ];
 
   const profileItems = [
-    { icon: <AiOutlineUser size={30} color="black" />, label: "Profile", onClick: () => setProfileOpen((prev) => !prev) },
-    { icon: <FiLogOut size={30} color="black" />, label: "Sign Out"},
+    { icon: <AiOutlineUser size={30} color="black" />,path:"profile", label: "Profile", onClick: () => setProfileOpen((prev) => !prev) },
+    { icon: <FiLogOut size={30} color="black" />,path:"signout", label: "Sign Out"},
   ];
 
   const handleItem = (item:string) =>{
@@ -77,7 +77,7 @@ function Sidebar({ isOpen, toggleSidebar, setProfileOpen,setSelectedItem }:Sideb
 
       <ul>
         {profileItems.map((item, index) => (
-          <li key={index}>
+          <li key={index} onClick={()=>handleItem(item.path)}>
             <div className={styles["list-item"]} >
               {item.icon}
               {(isHovered || isOpen) && <span>{item.label}</span>}

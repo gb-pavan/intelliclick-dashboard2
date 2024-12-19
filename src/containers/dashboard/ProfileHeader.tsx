@@ -9,11 +9,12 @@ import styles from './DashboardContainer.module.css';
 export interface IProfileHeaderProps {
   isOpen: boolean;
   toggleSidebar: () => void;
-setProfileOpen: (updater: (prev: boolean) => boolean) => void;
+  setProfileOpen: (updater: (prev: boolean) => boolean) => void;
+  setSelectedItem:(item:string) => void;
 }
 
 
-function ProfileHeader({ isOpen, toggleSidebar,setProfileOpen }:IProfileHeaderProps){
+function ProfileHeader({ isOpen, toggleSidebar,setProfileOpen,setSelectedItem }:IProfileHeaderProps){
 
     return (
         <div className={styles['profile-header-container']}>
@@ -27,7 +28,7 @@ function ProfileHeader({ isOpen, toggleSidebar,setProfileOpen }:IProfileHeaderPr
                     <FaToggleOff color='blue' size={25}/>
                 </div>
                 <div>
-                    <Image src={Ellipse} alt="profile-image" className={styles['profile-img']} onClick={() => setProfileOpen((prev) => !prev)}  />
+                    <Image src={Ellipse} alt="profile-image" className={styles['profile-img']} onClick={() => setSelectedItem('profile')}  />
                 </div>
             </div>
         </div>
