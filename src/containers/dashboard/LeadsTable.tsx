@@ -44,7 +44,9 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableP
     pageNum: 1, 
     pageSize: 10 
   };
-  
+
+  const totalPages = (totalLeads/rowsPerPage);
+    
   const filteredData = data.filter((item) => {
     const searchLower = searchFilter.toLowerCase();
     const matchesName = item.name.toLowerCase().includes(searchLower);
@@ -185,7 +187,7 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableP
         </div>
         {filteredRows?.length !== 0 && loading && <Pagination 
           currentPage={currentPage}
-          totalPages={totalLeads} 
+          totalPages={totalPages} 
           onPageChange={handlePageChange} 
           rowsPerPage={rowsPerPage} 
           onRowsPerPageChange={handleRowsPerPageChange} 

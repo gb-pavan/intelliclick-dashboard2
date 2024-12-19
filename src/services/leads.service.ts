@@ -14,6 +14,12 @@ class LeadsService{
       return await callingApi(url,API.GET);
     }
 
+    getFilteredStatuses = async (filters:URLSearchParams) => {
+      const url = `/api/lead-app/lead/read/get-all?${filters.toString()}`;
+      console.log("filters api",url);
+      return await callApi(url,API.GET);
+    }
+
     getLeadStats = async () => {
       const url = `api/lead-app/lead/read/get-lead-kpis`;
       return await callApi(url, API.GET);
@@ -34,12 +40,12 @@ class LeadsService{
       return await callApi(url,API.GET);
     }
 
-    sendOtp = async (phoneNumber) => {
+    sendOtp = async (phoneNumber:object) => {
       const url = 'api/authentication/otp';
       return await callApi(url,API.POST,phoneNumber);
     }
 
-    verifyOtp = async (phoneInfo) => {
+    verifyOtp = async (phoneInfo:object) => {
       const url = 'api/authentication/verify';
       return await callApi(url,API.POST,phoneInfo);
     }

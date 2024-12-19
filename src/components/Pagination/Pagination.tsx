@@ -33,7 +33,7 @@ function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsP
         </label>
         {/* <p style={{ color: "#64748B",fontSize:"14px",fontWeight:100 }}>1-{Math.min(rowsPerPage, totalPages * rowsPerPage)} of {(totalPages * rowsPerPage) || 0}</p> */}
         <p style={{ color: "#64748B", fontSize: "14px", fontWeight: 100 }}>
-          {totalPages > 0 ? `1-${Math.min(rowsPerPage, totalPages * rowsPerPage)}` : "0-0"} of {totalPages > 0 ? totalPages * rowsPerPage : 0} pages
+          {totalPages > 0 ? `1-${Math.min(rowsPerPage, totalPages * rowsPerPage)}` : "0-0"} of {totalPages > 0 ? totalPages * rowsPerPage: 0}
         </p>
 
       </div>
@@ -57,7 +57,7 @@ function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsP
             ))}
           </select>
         </label>
-        <p style={{ color: "#64748B",fontSize:"14px",fontWeight:100,marginLeft:"10px" }}>of {totalPages || 0} pages</p>
+        <p style={{ color: "#64748B",fontSize:"14px",fontWeight:100,marginLeft:"10px" }}>of {Math.ceil(totalPages) || 0} pages</p>
 
         {renderPageNavButtons()}
       </div>

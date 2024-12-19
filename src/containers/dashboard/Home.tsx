@@ -127,6 +127,27 @@ const Home = () => {
         inputRef.current?.focus();
     };
 
+    const onStatusFilter = async  (selectedStatuses:string[]) => {
+      const queryParams = new URLSearchParams({
+        pageNum: "1",
+        pageSize: "10",
+      });
+
+      // Add the status parameter only if there are selected statuses
+      if (selectedStatuses.length > 0) {
+        queryParams.append("status", selectedStatuses.join(","));
+      }
+      try {
+      const data = await leadServiceInstance.getFilteredStatuses(queryParams);
+      setLeads(data);
+      setFilteredRows(data?.data);
+      // console.log("data status filters",data);
+      // setLeadSummary(data);
+      } catch (error) {
+        handleError(error as AxiosError,true);
+      }
+    }
+
     return (
         <div>
             <div className={styles["user-welcome-info-container"]}>
@@ -136,8 +157,8 @@ const Home = () => {
                 </p>
             </div>
             <LeadSummary leadSummary={leadSummary} />
-            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} />
-            {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}/></div>}
+            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} onStatusFilter={onStatusFilter}/>
+            {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}  /></div>}
             <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} />
         </div>
     )

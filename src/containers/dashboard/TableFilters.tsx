@@ -14,10 +14,11 @@ interface TableFiltersProps {
   handleSearch: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setRefetchLeads: (value: boolean) => void;
+  onStatusFilter: (selected: string[]) => void;
 }
 
 
-const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads}:TableFiltersProps) => {
+const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads,onStatusFilter}:TableFiltersProps) => {
 
     const [isSearchCompressed,setIsSearchCompressed] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -80,18 +81,19 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
 
       const handleStatusChange = (selected:string[]) => {
 
-      const filtered = leads?.filter((row) => selected.some((status) => status.toLowerCase() === row.status.toLowerCase()));
+      // const filtered = leads?.filter((row) => selected.some((status) => status.toLowerCase() === row.status.toLowerCase()));
 
-      if (selected.length === 0){
-        setFilteredRows(leads)
-      }
+      // if (selected.length === 0){
+      //   setFilteredRows(leads)
+      // }
 
-      else if (filtered.length === 0){
-        setFilteredRows([])
-      }
-      else{
-        setFilteredRows(filtered);
-      }
+      // else if (filtered.length === 0){
+      //   setFilteredRows([])
+      // }
+      // else{
+      //   setFilteredRows(filtered);
+      // }
+      onStatusFilter(selected);
     
   };
 
