@@ -29,6 +29,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState("home");
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
+  const [statusFiltered,setStatusFiltered] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
    const [pageParams, setPageParams] = useState<IPageParams>({
     pageNum: 1,
@@ -46,8 +47,14 @@ const Home = () => {
         setLeads(data);
         setFilteredRows(data?.data);      
     }
-    getPageLeads();
-  },[pageParams]);
+    if(statusFiltered.length === 0){
+      getPageLeads();
+    }
+    else if(statusFiltered.length!==0) {
+      onStatusFilter(statusFiltered)
+    }
+   
+  },[pageParams,statusFiltered]);
 
   
 
@@ -128,9 +135,10 @@ const Home = () => {
     };
 
     const onStatusFilter = async  (selectedStatuses:string[]) => {
+      setStatusFiltered(selectedStatuses);
       const queryParams = new URLSearchParams({
-        pageNum: "1",
-        pageSize: "10",
+        pageNum: (pageParams.pageNum).toString(),
+        pageSize: (pageParams.pageSize).toString(),
       });
 
       // Add the status parameter only if there are selected statuses
@@ -159,7 +167,7 @@ const Home = () => {
             <LeadSummary leadSummary={leadSummary} />
             <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} onStatusFilter={onStatusFilter}/>
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}  /></div>}
-            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} />
+            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} statusFiltered={statusFiltered}/>
         </div>
     )
 }

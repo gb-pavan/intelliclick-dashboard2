@@ -23,9 +23,10 @@ interface LeadsTableProps{
   totalLeads:number;
   setLeads: (leads: { data: ILead[]; totalCount: number }) => void;
   setPageParams: (newParams: IPageParams) => void;
+  statusFiltered: string[];
 }
 
-const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableProps) => {
+const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams,statusFiltered}:LeadsTableProps) => {
 
   const [searchFilter, setSearchFilter] = useState('');
   const [standardFilter, setStandardFilter] = useState('');
@@ -46,7 +47,7 @@ const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableP
   };
 
   const totalPages = (totalLeads/rowsPerPage);
-    
+
   const filteredData = data.filter((item) => {
     const searchLower = searchFilter.toLowerCase();
     const matchesName = item.name.toLowerCase().includes(searchLower);
