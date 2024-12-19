@@ -57,9 +57,9 @@ const Calendar = ({ qualifiedCount, attendance }:CalendarProps) => {
           </div>
         ))}
       </div>
-      <div className="days">
+      <div className="days" style={{border: 'none' }}>
         {Array.from({ length: startDay }).map((_, index) => (
-          <div key={index} className="empty-day"></div>
+          <div key={index} className="empty-day" style={{ border: 'none' }}></div>
         ))}
         {daysInMonth.map((day) => {
           const isToday =
@@ -80,6 +80,7 @@ const Calendar = ({ qualifiedCount, attendance }:CalendarProps) => {
                   ? 'selected'
                   : ''
               }`}
+              // style={{backgroundColor: 'white'}}
               onClick={() => handleDateClick(day)}
             >
               {day.getDate()}

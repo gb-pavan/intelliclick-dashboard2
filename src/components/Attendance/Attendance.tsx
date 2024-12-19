@@ -36,17 +36,14 @@ const Attendance = () => {
       alignItems: 'center',    
       height: '100vh',        
     }}>
-        <h1 style={{color:'green'}}>
-          React Calendar Example
-        </h1>
         <Calendar qualifiedCount={qualifiedCount} attendance={attendance} />
-        {qualified && (
+        {/* {qualified && (
           <p style={{color:'black'}}>
               Qualified Count:<span style={{
                 color: qualifiedCount >= 10 ? 'green' : 'red',
               }}>{qualifiedCount >= 10?'Present':'Absent'}</span>
           </p>
-        )}
+        )} */}
     </div>
   );
 };
