@@ -1,9 +1,12 @@
 import React, { useRef, RefObject } from "react";
 
 
-import { UserData } from "../App";
-import CombinedLayerSvg from "../assets/PinkLayer";
-import CombinedIcon from "../assets/CombinedIcon";
+import { UserData } from "../../containers/dashboard/Profile";
+import CombinedLayerSvg from "./CombinedLayerSvg";
+import CombinedIcon from "./CombinedIcon";
+import Image from 'next/image';
+import qrcode from '@public/images/qrcode.svg';
+import Group from '@public/images/Group.png';
 
 
 interface ProfilePageProps {
@@ -44,8 +47,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userData, pageRef }) => {
         <div className="relative mt-[43.97px] flex items-center justify-center">
           <CombinedLayerSvg/>
           <div className="rounded-full">
-            <img
-              src="/images/Group.png"
+            <Image
+              src={Group}
               alt="User Profile Photo"
               className="mt-3 absolute left-1/2 top-[50%] rounded-full transform -translate-x-1/2 -translate-y-1/2 w-[191.36px] h-[181.93px] object-cover z-10"
             />
@@ -112,8 +115,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userData, pageRef }) => {
 
         {/* QR Code */}
         <div className="flex justify-center rounded-none border-0">
-          <img
-            src={userData?.qrCode || "/images/qrcode.svg"}
+          <Image
+            src={userData?.qrCode || qrcode}
             alt="User QR Code"
             className="w-[74.05px] h-[71.92px] rounded-none border-0"
           />

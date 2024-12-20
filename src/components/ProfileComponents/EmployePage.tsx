@@ -2,7 +2,10 @@ import React from "react";
 import dateFormat from "dateformat";
 import ProfilePage from "./ProfilePage";
 import DropdownButton from "./DropdownButton";
-import { UserData } from "../App";
+import { UserData } from "../../containers/dashboard/Profile";
+import Image from 'next/image';
+import Group from '@public/images/Group.png';
+import Icon from '@public/images/Icon.png';
 interface EmployePageProps {
   userData: UserData | null;
   frontRef: React.RefObject<HTMLDivElement >;
@@ -22,15 +25,15 @@ const EmployePage: React.FC<EmployePageProps>= ({ userData, frontRef, downloadHa
         <div className="flex flex-col sm:flex-row items-center justify-start mb-5 w-full">
           {/* Profile Picture */}
           <div className="relative">
-            <img
+            <Image
               className="w-24 h-24 sm:w-32 sm:h-32 rounded-full"
-              src="/images/Group.png"
+              src={Group}
               alt="profile pic"
             />
             <div className="flex items-center justify-center rounded-full w-9 h-9 bg-[#FBE8FF] absolute top-14  sm:top-20 right-0 opacity-50"></div>
-            <img
+            <Image
               className="w-4 h-4 absolute top-[66px] right-[7px] sm:top-[89px] sm:right-2 z-50"
-              src="/images/Icon.png"
+              src={Icon}
               alt="icon"
             />
           </div>

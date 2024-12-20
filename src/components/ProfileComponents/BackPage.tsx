@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from "react";
-import CombinedIcon from "../assets/CombinedIcon";
-import CombinePattern from "../assets/backcard/CombinedPattern";
+import CombinedIcon from "@components/ProfileComponents/CombinedIcon";
+import CombinePattern from "@components/ProfileComponents/CombinedPattern";
 
 
 interface BackPageProps {
