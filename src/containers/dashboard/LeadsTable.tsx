@@ -23,10 +23,9 @@ interface LeadsTableProps{
   totalLeads:number;
   setLeads: (leads: { data: ILead[]; totalCount: number }) => void;
   setPageParams: (newParams: IPageParams) => void;
-  statusFiltered: string[];
 }
 
-const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams,statusFiltered}:LeadsTableProps) => {
+const LeadsTable = ({filteredRows,totalLeads,setLeads,setPageParams}:LeadsTableProps) => {
 
   const [searchFilter, setSearchFilter] = useState('');
   const [standardFilter, setStandardFilter] = useState('');

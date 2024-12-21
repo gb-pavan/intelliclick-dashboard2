@@ -48,3 +48,9 @@ export interface IPageParams{
   pageNum: number;
   pageSize: number;
 }
+
+export interface FilterState {
+  statuses?: string[]; // Optional array of strings
+  singleDate?: Date; // Optional single date
+  dateRange?: { startDate?: Date; endDate?: Date }; // Optional date range
+}

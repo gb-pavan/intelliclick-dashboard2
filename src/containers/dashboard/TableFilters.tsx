@@ -6,7 +6,7 @@ import { IoIosSearch } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import Modal from '@/components/Modal/Modal';
 import styles from './DashboardContainer.module.css';
-import { ILead } from '@/interfaces';
+import { FilterState, ILead } from '@/interfaces';
 
 interface TableFiltersProps {
   leads: ILead[];
@@ -14,11 +14,17 @@ interface TableFiltersProps {
   handleSearch: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setRefetchLeads: (value: boolean) => void;
-  onStatusFilter: (selected: string[]) => void;
+  // onStatusFilter: (selected: string[]) => void;
+  // onFilter: (
+  //   selectedStatuses?: string[],
+  //   dateRange?: { startDate?: Date; endDate?: Date }
+  // ) => Promise<void>;
+  // setFilterState: (state: FilterState) => void; 
+  setFilterState: (newState: FilterState | ((prevState: FilterState) => FilterState)) => void;
 }
 
 
-const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads,onStatusFilter}:TableFiltersProps) => {
+const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads,setFilterState}:TableFiltersProps) => {
 
     const [isSearchCompressed,setIsSearchCompressed] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -93,13 +99,21 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
       // else{
       //   setFilteredRows(filtered);
       // }
-      onStatusFilter(selected);
+      // onStatusFilter(selected);
+      // onFilter(selected)
+      setFilterState(prevState => ({
+    ...prevState, // Preserve other state properties
+    statuses: selected, // Update the statuses array
+  }));
     
   };
+
+  
 
      const handleTimeRangeChange = (selectedOption:string,customStartDate: Date | undefined=undefined,customEndDate: Date | undefined=undefined) => {
     const today = new Date();
     let filteredData:ILead[] = [];
+    
 
     switch (selectedOption) {
       case "Today":
@@ -107,6 +121,11 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
           (row) =>
             new Date(row.createdAt).toDateString() === today.toDateString()
         );
+        console.log("today");
+        setFilterState(prevState => ({
+          ...prevState,
+          singleDate:today
+        }))
         break;
       case "This Week":
         const startOfWeek = new Date(today);
@@ -115,6 +134,13 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
           (row) =>
             new Date(row.createdAt) >= startOfWeek && new Date(row.createdAt) <= today
         );
+        setFilterState(prevState => ({
+          ...prevState,
+          dateRange: {
+            startDate: startOfWeek,
+            endDate: today,
+          },
+        }))
         break;
       case "This Month":
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -122,6 +148,13 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
           (row) =>
             new Date(row.createdAt) >= startOfMonth && new Date(row.createdAt) <= today
         );
+        setFilterState(prevState => ({
+          ...prevState,
+          dateRange: {
+            startDate: startOfMonth,
+            endDate: today,
+          },
+        }))
         break;
       case "Last Week":
         const endOfLastWeek = new Date(today);
@@ -133,6 +166,13 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
             new Date(row.createdAt) >= startOfLastWeek &&
             new Date(row.createdAt) <= endOfLastWeek
         );
+        setFilterState(prevState => ({
+          ...prevState,
+          dateRange: {
+            startDate: startOfLastWeek,
+            endDate: endOfLastWeek,
+          },
+        }))
         break;
       case "Last Month":
         const startOfLastMonth = new Date(
@@ -150,6 +190,13 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
             new Date(row.createdAt) >= startOfLastMonth &&
             new Date(row.createdAt) <= endOfLastMonth
         );
+        setFilterState(prevState => ({
+          ...prevState,
+          dateRange: {
+            startDate: startOfLastMonth,
+            endDate: endOfLastMonth,
+          },
+        }))
         break;
       case "Custom Date":
         if (customStartDate && !customEndDate) {
@@ -167,6 +214,13 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
               new Date(row.createdAt) >= startDate &&
               new Date(row.createdAt) <= endDate
           );
+          setFilterState(prevState => ({
+          ...prevState,
+          dateRange: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        }))
         } else if (!customStartDate && !customEndDate) {
             return
         }

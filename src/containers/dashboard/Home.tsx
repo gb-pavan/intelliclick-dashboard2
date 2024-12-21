@@ -11,7 +11,13 @@ import TableFilters from './TableFilters';
 
 const Home = () => {
 
-    const [leadSummary, setLeadSummary] = useState<ILeadSummary>({
+  type FilterState = {
+  statuses?: string[]; // Array of strings
+  singleDate?: Date; // Optional single date
+  dateRange?: { startDate?: Date; endDate?: Date }; // Optional date range
+};
+
+  const [leadSummary, setLeadSummary] = useState<ILeadSummary>({
     totalLeads: 0,
     todayLeads: 0,
     yesterdayLeads: 0,
@@ -29,8 +35,12 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState("home");
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
-  const [statusFiltered,setStatusFiltered] = useState<string[]>([]);
+  // const [statusFiltered,setStatusFiltered] = useState<string[]>([]);
+  const [filterState, setFilterState] = useState<FilterState>({
+    
+  });
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const filterStateRef = useRef<FilterState>({}); 
    const [pageParams, setPageParams] = useState<IPageParams>({
     pageNum: 1,
     pageSize: 10
@@ -42,19 +52,51 @@ const Home = () => {
 
 
   useEffect(()=>{
+    console.log("date change observed")
+    console.log("filtered",filterState)
+    console.log("Statuses:", filterState?.statuses); // Logs the statuses array
+    console.log("Single Date:", filterState?.singleDate); // Logs the single date
+
+    filterStateRef.current = {
+      ...filterState,
+    };
+
+
     const getPageLeads = async () => {        
         const data = await leadServiceInstance.getLeadsByParams(pageParams);  
         setLeads(data);
         setFilteredRows(data?.data);      
     }
-    if(statusFiltered.length === 0){
+    // if(filterState?.statuses?.length === 0){
+    //   getPageLeads();
+    // }
+    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.singleDate === undefined && filterState?.dateRange === undefined) {
+    //   onFilter(filterState?.statuses || [])
+    // }
+    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.singleDate && filterState?.dateRange === undefined){
+    //   console.log("single date")
+    //   onFilter(filterState?.statuses,filterState?.singleDate)
+    // }
+    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.dateRange && filterState?.singleDate === undefined){
+    //   console.log("double date")
+    //    onFilter(filterState?.statuses,undefined,filterState?.dateRange)
+    // }
+    if(filterStateRef?.current?.statuses?.length === 0){
       getPageLeads();
     }
-    else if(statusFiltered.length!==0) {
-      onStatusFilter(statusFiltered)
+    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange === undefined) {
+      onFilter(filterStateRef?.current?.statuses || [])
+    }
+    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange === undefined){
+      console.log("single date")
+      onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate)
+    }
+    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.dateRange && filterStateRef?.current?.singleDate === undefined){
+      console.log("double date")
+       onFilter(filterStateRef?.current?.statuses,undefined,filterStateRef?.current?.dateRange)
     }
    
-  },[pageParams,statusFiltered]);
+  },[pageParams,filterState]);
 
   
 
@@ -134,21 +176,36 @@ const Home = () => {
         inputRef.current?.focus();
     };
 
-    const onStatusFilter = async  (selectedStatuses:string[]) => {
-      setStatusFiltered(selectedStatuses);
+    const onFilter = async  (selectedStatuses?:string[],singleDate?:Date,dateRange?: { startDate?: Date; endDate?: Date }) => {
+      // setStatusFiltered(selectedStatuses);
+      // setFilterState({statuses:selectedStatuses})
       const queryParams = new URLSearchParams({
         pageNum: (pageParams.pageNum).toString(),
         pageSize: (pageParams.pageSize).toString(),
       });
 
       // Add the status parameter only if there are selected statuses
-      if (selectedStatuses.length > 0) {
-        queryParams.append("status", selectedStatuses.join(","));
+      if ((filterState?.statuses || []).length > 0) {
+        queryParams.append("status", (filterState.statuses || []).join(","));
+      }
+
+      if (dateRange?.startDate) {
+        queryParams.append("fromDate", dateRange.startDate.toISOString());
+      }
+      if (dateRange?.endDate) {
+        queryParams.append("toDate", dateRange.endDate.toISOString());
       }
       try {
       const data = await leadServiceInstance.getFilteredStatuses(queryParams);
       setLeads(data);
       setFilteredRows(data?.data);
+      filterStateRef.current = {
+      ...filterStateRef.current,
+      statuses: [],
+      singleDate: singleDate ?? undefined,
+        dateRange: (dateRange?.startDate instanceof Date && dateRange?.endDate instanceof Date) ? dateRange : undefined,
+
+    };
       // console.log("data status filters",data);
       // setLeadSummary(data);
       } catch (error) {
@@ -165,9 +222,9 @@ const Home = () => {
                 </p>
             </div>
             <LeadSummary leadSummary={leadSummary} />
-            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} onStatusFilter={onStatusFilter}/>
+            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} setFilterState={setFilterState}/>
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}  /></div>}
-            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} statusFiltered={statusFiltered}/>
+            <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} />
         </div>
     )
 }
