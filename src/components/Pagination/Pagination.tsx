@@ -11,7 +11,10 @@ interface PaginationProps {
 }
 
 function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsPerPageChange }:PaginationProps) {
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+  // const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+  const adjustedTotalPages = Math.max(1, Math.ceil(totalPages));
+  const pages = Array.from({ length: adjustedTotalPages }, (_, index) => index + 1);
+
   const rowsOptions = [10, 25, 50, 100];
 
   const renderRowsPerPage = () => {
@@ -73,7 +76,8 @@ function Pagination({ currentPage,totalPages, onPageChange, rowsPerPage, onRowsP
           size={10}
         />
         <FaChevronRight
-          className={`page-controls ${currentPage === totalPages ? 'disabled' : ''}`}
+          // className={`page-controls ${currentPage === totalPages ? 'disabled' : ''}`}
+          className={`page-controls ${currentPage === Math.max(1, totalPages) ? 'disabled' : ''}`}
           onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
           size={10}
         />
