@@ -100,27 +100,36 @@ const Home = () => {
     const { statuses, singleDate, dateRange } = filterStateRef?.current || {};
     const { startDate, endDate } = dateRange || {};
 
-    // Define the filter logic
-    if (!statuses?.length && singleDate) {
-      // Filter by single date only
-      onFilter(undefined, singleDate, undefined);
-    } else if (!statuses?.length && startDate && endDate) {
-      // Filter by date range only
-      onFilter(undefined, undefined, { startDate, endDate });
-    } else if (statuses?.length && !singleDate && !startDate && !endDate) {
-      // Filter by statuses only
-      onFilter(statuses, undefined, undefined);
-    } else if (statuses?.length && singleDate && !startDate && !endDate) {
-      // Filter by statuses and single date
-      onFilter(statuses, singleDate, undefined);
-    } else if (statuses?.length && startDate && endDate && !singleDate) {
-      // Filter by statuses and date range
-      onFilter(statuses, undefined, { startDate, endDate });
-    } else if (statuses?.length && singleDate && startDate && endDate) {
-      // Handle all conditions if required
-      console.log("Filtering with statuses, single date, and date range");
-      onFilter(statuses, singleDate, { startDate, endDate });
-    } 
+    if (statuses?.length || singleDate || (startDate && endDate)) {
+      
+    onFilter(
+      statuses?.length ? statuses : undefined,
+      singleDate? singleDate: undefined,
+      startDate && endDate ? { startDate, endDate } : undefined,
+    );
+  }
+
+    // // Define the filter logic
+    // if (!statuses?.length && singleDate) {
+    //   // Filter by single date only
+    //   onFilter(undefined, singleDate, undefined);
+    // } else if (!statuses?.length && startDate && endDate) {
+    //   // Filter by date range only
+    //   onFilter(undefined, undefined, { startDate, endDate });
+    // } else if (statuses?.length && !singleDate && !startDate && !endDate) {
+    //   // Filter by statuses only
+    //   onFilter(statuses, undefined, undefined);
+    // } else if (statuses?.length && singleDate && !startDate && !endDate) {
+    //   // Filter by statuses and single date
+    //   onFilter(statuses, singleDate, undefined);
+    // } else if (statuses?.length && startDate && endDate && !singleDate) {
+    //   // Filter by statuses and date range
+    //   onFilter(statuses, undefined, { startDate, endDate });
+    // } else if (statuses?.length && singleDate && startDate && endDate) {
+    //   // Handle all conditions if required
+    //   console.log("Filtering with statuses, single date, and date range");
+    //   onFilter(statuses, singleDate, { startDate, endDate });
+    // } 
    
   },[pageParams,filterState]);
 
@@ -227,15 +236,27 @@ const Home = () => {
 
       // Add the status parameter only if there are selected statuses
       if ((filterState?.statuses || []).length > 0) {
-        queryParams.append("status", (filterState.statuses || []).join(","));
+        queryParams.append("status", (selectedStatuses || []).join(","));
       }
 
-      if (dateRange?.startDate) {
-        queryParams.append("fromDate", dateRange.startDate.toISOString());
+      if (dateRange?.startDate !== dateRange?.endDate){
+        if (dateRange?.startDate) {
+          console.log("start date", dateRange?.startDate);
+          queryParams.append("fromDate", dateRange.startDate.toISOString());
+        }
+        if (dateRange?.endDate) {
+          queryParams.append("toDate", dateRange.endDate.toISOString());
+        }
       }
-      if (dateRange?.endDate) {
-        queryParams.append("toDate", dateRange.endDate.toISOString());
+
+      if (dateRange?.startDate === dateRange?.endDate){
+        if (dateRange?.startDate && dateRange?.endDate) {
+          queryParams.append("fromDate", dateRange.startDate.toISOString());
+          queryParams.append("toDate", dateRange.endDate.toISOString());
+        }
       }
+
+      
       if (singleDate){
         queryParams.append("fromDate", singleDate.toISOString());
         queryParams.append("toDate", singleDate.toISOString());

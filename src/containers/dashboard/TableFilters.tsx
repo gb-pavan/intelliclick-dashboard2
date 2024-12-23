@@ -49,6 +49,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     const timeRanges = [
         "All",
         "Today",
+        "Yesterday",
         "This Week",
         "This Month",
         "Last Week",
@@ -117,25 +118,64 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     
 
     switch (selectedOption) {
-      case "Today":
-        filteredData = leads.filter(
-          (row) =>
-            new Date(row.createdAt).toDateString() === today.toDateString()
-        );
-        // setFilterState(prevState => ({
-        //     ...prevState,
-        //     singleDate:today
+      // case "Today":
+      //   filteredData = leads.filter(
+      //     (row) =>
+      //       new Date(row.createdAt).toDateString() === today.toDateString()
+      //   );
+      //   // setFilterState(prevState => ({
+      //   //     ...prevState,
+      //   //     singleDate:today
             
-        //   }))
+      //   //   }))
        
-          setFilterState(prevState => ({
-            ...prevState,
-            singleDate:today,
-            dateRange: { startDate: undefined, endDate: undefined }
-          }))
+      //     setFilterState(prevState => ({
+      //       ...prevState,
+      //       singleDate:today,
+      //       dateRange: { startDate: undefined, endDate: undefined }
+      //     }))
         
         
+      // break;
+      case "Today":
+        const today_t = new Date();
+
+        // Calculate the start of today
+        const startOfDay_t = new Date(today_t);
+        startOfDay_t.setHours(0, 0, 0, 0); // Set time to 00:00:00
+
+        // Calculate the end of today
+        const endOfDay_t = new Date(today_t);
+        endOfDay_t.setHours(23, 59, 59, 999); // Set time to 23:59:59
+
+        setFilterState((prevState) => ({
+          ...prevState,
+          singleDate: undefined,
+          dateRange: { startDate: startOfDay_t, endDate: endOfDay_t },
+        }));
+
         break;
+
+        case "Yesterday":
+          const yesterday = new Date();
+          
+          // Calculate the start of yesterday
+          const startOfDay = new Date(yesterday.setDate(yesterday.getDate() - 1));
+          startOfDay.setHours(0, 0, 0, 0); // Set time to 00:00:00
+
+          // Calculate the end of yesterday
+          const endOfDay = new Date(yesterday);
+          endOfDay.setHours(23, 59, 59, 999); // Set time to 23:59:59
+
+          setFilterState((prevState) => ({
+            ...prevState,
+            singleDate: undefined,
+            dateRange: { startDate: startOfDay, endDate: endOfDay },
+          }));
+
+        break;
+
+
       case "This Week":
         const startOfWeek = new Date(today);
         startOfWeek.setDate(today.getDate() - today.getDay());
