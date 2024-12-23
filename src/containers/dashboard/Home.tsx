@@ -37,10 +37,16 @@ const Home = () => {
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
   // const [statusFiltered,setStatusFiltered] = useState<string[]>([]);
   const [filterState, setFilterState] = useState<FilterState>({
-    
+    statuses: [],
+    singleDate: undefined,
+    dateRange: { startDate: undefined, endDate: undefined },
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const filterStateRef = useRef<FilterState>({}); 
+  const filterStateRef = useRef<FilterState>({
+    statuses: [],
+    singleDate: undefined,
+    dateRange: { startDate: undefined, endDate: undefined },
+  }); 
    const [pageParams, setPageParams] = useState<IPageParams>({
     pageNum: 1,
     pageSize: 10
@@ -52,10 +58,19 @@ const Home = () => {
 
 
   useEffect(()=>{
-    console.log("date change observed")
-    console.log("filtered",filterState)
-    console.log("Statuses:", filterState?.statuses); // Logs the statuses array
-    console.log("Single Date:", filterState?.singleDate); // Logs the single date
+    // console.log("date change observed")
+    // console.log("filtered",filterState)
+    // console.log("Statuses:", filterState?.statuses); // Logs the statuses array
+    // console.log("Single Date:", filterState?.singleDate); // Logs the single date
+
+    if (
+      filterState?.statuses?.length === 0 &&
+      filterState?.singleDate === undefined &&
+      filterState?.dateRange?.startDate === undefined &&
+      filterState?.dateRange?.endDate === undefined
+    ) {
+      fetchLeads();
+    }
 
     filterStateRef.current = {
       ...filterState,
@@ -98,10 +113,7 @@ const Home = () => {
    
   },[pageParams,filterState]);
 
-  
-
-   useEffect(() => {
-    const fetchLeads = async () => {
+  const fetchLeads = async () => {
       try {
         const data = await leadServiceInstance.getLeadsByParams(pageParams);  
         setLeads(data);
@@ -112,6 +124,9 @@ const Home = () => {
         setLoading(false);
       }
     };
+
+   useEffect(() => {
+    
 
     fetchLeads(); 
   }, []);
