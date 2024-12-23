@@ -20,11 +20,12 @@ interface TableFiltersProps {
   //   dateRange?: { startDate?: Date; endDate?: Date }
   // ) => Promise<void>;
   // setFilterState: (state: FilterState) => void; 
+  filterState:FilterState
   setFilterState: (newState: FilterState | ((prevState: FilterState) => FilterState)) => void;
 }
 
 
-const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads,setFilterState}:TableFiltersProps) => {
+const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,setRefetchLeads,filterState,setFilterState}:TableFiltersProps) => {
 
     const [isSearchCompressed,setIsSearchCompressed] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -121,11 +122,19 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
           (row) =>
             new Date(row.createdAt).toDateString() === today.toDateString()
         );
-        console.log("today");
-        setFilterState(prevState => ({
-          ...prevState,
-          singleDate:today
-        }))
+        // setFilterState(prevState => ({
+        //     ...prevState,
+        //     singleDate:today
+            
+        //   }))
+       
+          setFilterState(prevState => ({
+            ...prevState,
+            singleDate:today,
+            dateRange: { startDate: undefined, endDate: undefined }
+          }))
+        
+        
         break;
       case "This Week":
         const startOfWeek = new Date(today);
@@ -136,6 +145,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         );
         setFilterState(prevState => ({
           ...prevState,
+          singleDate:undefined,
           dateRange: {
             startDate: startOfWeek,
             endDate: today,
@@ -150,6 +160,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         );
         setFilterState(prevState => ({
           ...prevState,
+          singleDate:undefined,
           dateRange: {
             startDate: startOfMonth,
             endDate: today,
@@ -168,6 +179,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         );
         setFilterState(prevState => ({
           ...prevState,
+          singleDate:undefined,
           dateRange: {
             startDate: startOfLastWeek,
             endDate: endOfLastWeek,
@@ -192,6 +204,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         );
         setFilterState(prevState => ({
           ...prevState,
+          singleDate:undefined,
           dateRange: {
             startDate: startOfLastMonth,
             endDate: endOfLastMonth,
@@ -216,6 +229,7 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
           );
           setFilterState(prevState => ({
           ...prevState,
+          singleDate:undefined,
           dateRange: {
             startDate: startDate,
             endDate: endDate,

@@ -59,7 +59,7 @@ const Home = () => {
 
   useEffect(()=>{
     // console.log("date change observed")
-    // console.log("filtered",filterState)
+    console.log("filtered",filterState)
     // console.log("Statuses:", filterState?.statuses); // Logs the statuses array
     // console.log("Single Date:", filterState?.singleDate); // Logs the single date
 
@@ -79,23 +79,48 @@ const Home = () => {
       ...filterState,
     };
 
-    if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
-      onFilter(undefined,filterStateRef?.current.singleDate,undefined)
-    }
-    else if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate===undefined && filterStateRef?.current?.dateRange?.startDate && filterStateRef?.current?.dateRange?.endDate) {
-      onFilter(undefined,undefined,filterStateRef?.current?.dateRange)
-    }
-    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
-      onFilter(filterStateRef?.current?.statuses || [],undefined,undefined)
-    }
-    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange === undefined){
-      console.log("single date")
-      onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate,undefined)
-    }
-    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.dateRange && filterStateRef?.current?.singleDate === undefined){
-      console.log("double date")
-       onFilter(filterStateRef?.current?.statuses,undefined,filterStateRef?.current?.dateRange)
-    }
+    // if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
+    //   onFilter(undefined,filterStateRef?.current.singleDate,undefined)
+    // }
+    // else if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate===undefined && filterStateRef?.current?.dateRange?.startDate && filterStateRef?.current?.dateRange?.endDate) {
+    //   onFilter(undefined,undefined,filterStateRef?.current?.dateRange)
+    // }
+    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
+    //   onFilter(filterStateRef?.current?.statuses || [],undefined,undefined)
+    // }
+    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange === undefined){
+    //   console.log("single date")
+    //   onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate,undefined)
+    // }
+    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.dateRange && filterStateRef?.current?.singleDate === undefined){
+    //   console.log("double date")
+    //    onFilter(filterStateRef?.current?.statuses,undefined,filterStateRef?.current?.dateRange)
+    // }
+
+    const { statuses, singleDate, dateRange } = filterStateRef?.current || {};
+    const { startDate, endDate } = dateRange || {};
+
+    // Define the filter logic
+    if (!statuses?.length && singleDate) {
+      // Filter by single date only
+      onFilter(undefined, singleDate, undefined);
+    } else if (!statuses?.length && startDate && endDate) {
+      // Filter by date range only
+      onFilter(undefined, undefined, { startDate, endDate });
+    } else if (statuses?.length && !singleDate && !startDate && !endDate) {
+      // Filter by statuses only
+      onFilter(statuses, undefined, undefined);
+    } else if (statuses?.length && singleDate && !startDate && !endDate) {
+      // Filter by statuses and single date
+      onFilter(statuses, singleDate, undefined);
+    } else if (statuses?.length && startDate && endDate && !singleDate) {
+      // Filter by statuses and date range
+      onFilter(statuses, undefined, { startDate, endDate });
+    } else if (statuses?.length && singleDate && startDate && endDate) {
+      // Handle all conditions if required
+      console.log("Filtering with statuses, single date, and date range");
+      onFilter(statuses, singleDate, { startDate, endDate });
+    } 
    
   },[pageParams,filterState]);
 
@@ -219,11 +244,11 @@ const Home = () => {
       const data = await leadServiceInstance.getFilteredStatuses(queryParams);
       setLeads(data);
       setFilteredRows(data?.data);
-      setFilterState({
-        statuses: [],
-        singleDate: undefined,
-        dateRange: { startDate: undefined, endDate: undefined },
-      })
+      // setFilterState({
+      //   statuses: [],
+      //   singleDate: undefined,
+      //   dateRange: { startDate: undefined, endDate: undefined },
+      // })
       // console.log("data status filters",data);
       // setLeadSummary(data);
       } catch (error) {
@@ -240,7 +265,7 @@ const Home = () => {
                 </p>
             </div>
             <LeadSummary leadSummary={leadSummary} />
-            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} setFilterState={setFilterState}/>
+            <TableFilters leads={leads?.data} setFilteredRows={setFilteredRows}  handleSearch={handleSearch} handleSearchChange={handleSearchChange} setRefetchLeads={setRefetchLeads} setFilterState={setFilterState} filterState={filterState}/>
             {search && <div className={styles["search-display"]}><input ref={inputRef} placeholder="Search here" onChange={handleSearchChange}  /></div>}
             <LeadsTable filteredRows={filteredRows} totalLeads={leads?.totalCount} setLeads={setLeads} setPageParams={setPageParams} />
         </div>
