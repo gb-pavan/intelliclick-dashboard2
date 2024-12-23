@@ -35,7 +35,6 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState("home");
   const [refetchLeads,setRefetchLeads] = useState<boolean>(false);
-  // const [statusFiltered,setStatusFiltered] = useState<string[]>([]);
   const [filterState, setFilterState] = useState<FilterState>({
     statuses: [],
     singleDate: undefined,
@@ -58,11 +57,6 @@ const Home = () => {
 
 
   useEffect(()=>{
-    // console.log("date change observed")
-    console.log("filtered",filterState)
-    // console.log("Statuses:", filterState?.statuses); // Logs the statuses array
-    // console.log("Single Date:", filterState?.singleDate); // Logs the single date
-
     if (
       filterState?.statuses?.length === 0 &&
       filterState?.singleDate === undefined &&
@@ -79,24 +73,6 @@ const Home = () => {
       ...filterState,
     };
 
-    // if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
-    //   onFilter(undefined,filterStateRef?.current.singleDate,undefined)
-    // }
-    // else if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate===undefined && filterStateRef?.current?.dateRange?.startDate && filterStateRef?.current?.dateRange?.endDate) {
-    //   onFilter(undefined,undefined,filterStateRef?.current?.dateRange)
-    // }
-    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
-    //   onFilter(filterStateRef?.current?.statuses || [],undefined,undefined)
-    // }
-    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange === undefined){
-    //   console.log("single date")
-    //   onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate,undefined)
-    // }
-    // else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.dateRange && filterStateRef?.current?.singleDate === undefined){
-    //   console.log("double date")
-    //    onFilter(filterStateRef?.current?.statuses,undefined,filterStateRef?.current?.dateRange)
-    // }
-
     const { statuses, singleDate, dateRange } = filterStateRef?.current || {};
     const { startDate, endDate } = dateRange || {};
 
@@ -108,28 +84,6 @@ const Home = () => {
       startDate && endDate ? { startDate, endDate } : undefined,
     );
   }
-
-    // // Define the filter logic
-    // if (!statuses?.length && singleDate) {
-    //   // Filter by single date only
-    //   onFilter(undefined, singleDate, undefined);
-    // } else if (!statuses?.length && startDate && endDate) {
-    //   // Filter by date range only
-    //   onFilter(undefined, undefined, { startDate, endDate });
-    // } else if (statuses?.length && !singleDate && !startDate && !endDate) {
-    //   // Filter by statuses only
-    //   onFilter(statuses, undefined, undefined);
-    // } else if (statuses?.length && singleDate && !startDate && !endDate) {
-    //   // Filter by statuses and single date
-    //   onFilter(statuses, singleDate, undefined);
-    // } else if (statuses?.length && startDate && endDate && !singleDate) {
-    //   // Filter by statuses and date range
-    //   onFilter(statuses, undefined, { startDate, endDate });
-    // } else if (statuses?.length && singleDate && startDate && endDate) {
-    //   // Handle all conditions if required
-    //   console.log("Filtering with statuses, single date, and date range");
-    //   onFilter(statuses, singleDate, { startDate, endDate });
-    // } 
    
   },[pageParams,filterState]);
 
@@ -219,22 +173,19 @@ const Home = () => {
       };
 
       return new Promise<void>((resolve) => {
-        setFilterState(initialFilterState); // Update state
-        filterStateRef.current = initialFilterState; // Sync ref with the new state
+        setFilterState(initialFilterState);
+        filterStateRef.current = initialFilterState;
         resolve();
       });
     };
 
 
     const onFilter = async  (selectedStatuses?:string[],singleDate?:Date,dateRange?: { startDate?: Date; endDate?: Date }) => {
-      // setStatusFiltered(selectedStatuses);
-      // setFilterState({statuses:selectedStatuses})
       const queryParams = new URLSearchParams({
         pageNum: (pageParams.pageNum).toString(),
         pageSize: (pageParams.pageSize).toString(),
       });
 
-      // Add the status parameter only if there are selected statuses
       if ((filterState?.statuses || []).length > 0) {
         queryParams.append("status", (selectedStatuses || []).join(","));
       }
@@ -265,13 +216,6 @@ const Home = () => {
       const data = await leadServiceInstance.getFilteredStatuses(queryParams);
       setLeads(data);
       setFilteredRows(data?.data);
-      // setFilterState({
-      //   statuses: [],
-      //   singleDate: undefined,
-      //   dateRange: { startDate: undefined, endDate: undefined },
-      // })
-      // console.log("data status filters",data);
-      // setLeadSummary(data);
       } catch (error) {
         handleError(error as AxiosError,true);
       }

@@ -14,12 +14,6 @@ interface TableFiltersProps {
   handleSearch: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setRefetchLeads: (value: boolean) => void;
-  // onStatusFilter: (selected: string[]) => void;
-  // onFilter: (
-  //   selectedStatuses?: string[],
-  //   dateRange?: { startDate?: Date; endDate?: Date }
-  // ) => Promise<void>;
-  // setFilterState: (state: FilterState) => void; 
   filterState:FilterState
   setFilterState: (newState: FilterState | ((prevState: FilterState) => FilterState)) => void;
 }
@@ -88,24 +82,9 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     }    
 
       const handleStatusChange = (selected:string[]) => {
-
-      // const filtered = leads?.filter((row) => selected.some((status) => status.toLowerCase() === row.status.toLowerCase()));
-
-      // if (selected.length === 0){
-      //   setFilteredRows(leads)
-      // }
-
-      // else if (filtered.length === 0){
-      //   setFilteredRows([])
-      // }
-      // else{
-      //   setFilteredRows(filtered);
-      // }
-      // onStatusFilter(selected);
-      // onFilter(selected)
       setFilterState(prevState => ({
-    ...prevState, // Preserve other state properties
-    statuses: selected, // Update the statuses array
+    ...prevState,
+    statuses: selected,
   }));
     
   };
@@ -118,35 +97,15 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
     
 
     switch (selectedOption) {
-      // case "Today":
-      //   filteredData = leads.filter(
-      //     (row) =>
-      //       new Date(row.createdAt).toDateString() === today.toDateString()
-      //   );
-      //   // setFilterState(prevState => ({
-      //   //     ...prevState,
-      //   //     singleDate:today
-            
-      //   //   }))
-       
-      //     setFilterState(prevState => ({
-      //       ...prevState,
-      //       singleDate:today,
-      //       dateRange: { startDate: undefined, endDate: undefined }
-      //     }))
-        
-        
-      // break;
+     
       case "Today":
         const today_t = new Date();
 
-        // Calculate the start of today
         const startOfDay_t = new Date(today_t);
-        startOfDay_t.setHours(0, 0, 0, 0); // Set time to 00:00:00
+        startOfDay_t.setHours(0, 0, 0, 0); 
 
-        // Calculate the end of today
         const endOfDay_t = new Date(today_t);
-        endOfDay_t.setHours(23, 59, 59, 999); // Set time to 23:59:59
+        endOfDay_t.setHours(23, 59, 59, 999); 
 
         setFilterState((prevState) => ({
           ...prevState,
@@ -159,13 +118,11 @@ const TableFilters = ({leads,setFilteredRows,handleSearch,handleSearchChange,set
         case "Yesterday":
           const yesterday = new Date();
           
-          // Calculate the start of yesterday
           const startOfDay = new Date(yesterday.setDate(yesterday.getDate() - 1));
-          startOfDay.setHours(0, 0, 0, 0); // Set time to 00:00:00
+          startOfDay.setHours(0, 0, 0, 0);
 
-          // Calculate the end of yesterday
           const endOfDay = new Date(yesterday);
-          endOfDay.setHours(23, 59, 59, 999); // Set time to 23:59:59
+          endOfDay.setHours(23, 59, 59, 999); 
 
           setFilterState((prevState) => ({
             ...prevState,
