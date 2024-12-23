@@ -69,42 +69,28 @@ const Home = () => {
       filterState?.dateRange?.startDate === undefined &&
       filterState?.dateRange?.endDate === undefined
     ) {
-      fetchLeads();
+      if (pageParams.pageNum !== 1 || pageParams.pageSize !==10){
+        fetchLeads();
+      }
+      return      
     }
 
     filterStateRef.current = {
       ...filterState,
     };
 
-
-    const getPageLeads = async () => {        
-        const data = await leadServiceInstance.getLeadsByParams(pageParams);  
-        setLeads(data);
-        setFilteredRows(data?.data);      
+    if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
+      onFilter(undefined,filterStateRef?.current.singleDate,undefined)
     }
-    // if(filterState?.statuses?.length === 0){
-    //   getPageLeads();
-    // }
-    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.singleDate === undefined && filterState?.dateRange === undefined) {
-    //   onFilter(filterState?.statuses || [])
-    // }
-    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.singleDate && filterState?.dateRange === undefined){
-    //   console.log("single date")
-    //   onFilter(filterState?.statuses,filterState?.singleDate)
-    // }
-    // else if(filterState?.statuses && filterState?.statuses?.length > 0 && filterState?.dateRange && filterState?.singleDate === undefined){
-    //   console.log("double date")
-    //    onFilter(filterState?.statuses,undefined,filterState?.dateRange)
-    // }
-    if(filterStateRef?.current?.statuses?.length === 0){
-      getPageLeads();
+    else if(filterStateRef?.current?.statuses?.length === 0 && filterStateRef?.current?.singleDate===undefined && filterStateRef?.current?.dateRange?.startDate && filterStateRef?.current?.dateRange?.endDate) {
+      onFilter(undefined,undefined,filterStateRef?.current?.dateRange)
     }
-    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange === undefined) {
-      onFilter(filterStateRef?.current?.statuses || [])
+    else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate === undefined && filterStateRef?.current?.dateRange?.startDate === undefined&& filterStateRef?.current?.dateRange?.endDate === undefined) {
+      onFilter(filterStateRef?.current?.statuses || [],undefined,undefined)
     }
     else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.singleDate && filterStateRef?.current?.dateRange === undefined){
       console.log("single date")
-      onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate)
+      onFilter(filterStateRef?.current?.statuses,filterStateRef?.current?.singleDate,undefined)
     }
     else if(filterStateRef?.current?.statuses && filterStateRef?.current?.statuses?.length > 0 && filterStateRef?.current?.dateRange && filterStateRef?.current?.singleDate === undefined){
       console.log("double date")
@@ -191,6 +177,21 @@ const Home = () => {
         inputRef.current?.focus();
     };
 
+    const resetFilters = async () => {
+      const initialFilterState = {
+        statuses: [],
+        singleDate: undefined,
+        dateRange: { startDate: undefined, endDate: undefined },
+      };
+
+      return new Promise<void>((resolve) => {
+        setFilterState(initialFilterState); // Update state
+        filterStateRef.current = initialFilterState; // Sync ref with the new state
+        resolve();
+      });
+    };
+
+
     const onFilter = async  (selectedStatuses?:string[],singleDate?:Date,dateRange?: { startDate?: Date; endDate?: Date }) => {
       // setStatusFiltered(selectedStatuses);
       // setFilterState({statuses:selectedStatuses})
@@ -210,17 +211,19 @@ const Home = () => {
       if (dateRange?.endDate) {
         queryParams.append("toDate", dateRange.endDate.toISOString());
       }
+      if (singleDate){
+        queryParams.append("fromDate", singleDate.toISOString());
+        queryParams.append("toDate", singleDate.toISOString());
+      }
       try {
       const data = await leadServiceInstance.getFilteredStatuses(queryParams);
       setLeads(data);
       setFilteredRows(data?.data);
-      filterStateRef.current = {
-      ...filterStateRef.current,
-      statuses: [],
-      singleDate: singleDate ?? undefined,
-        dateRange: (dateRange?.startDate instanceof Date && dateRange?.endDate instanceof Date) ? dateRange : undefined,
-
-    };
+      setFilterState({
+        statuses: [],
+        singleDate: undefined,
+        dateRange: { startDate: undefined, endDate: undefined },
+      })
       // console.log("data status filters",data);
       // setLeadSummary(data);
       } catch (error) {
